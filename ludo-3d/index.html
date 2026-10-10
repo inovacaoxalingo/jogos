@@ -166,6 +166,17 @@ img{display:block}
 .win .trophy svg{width:46px;height:46px}
 .win h2{font-size:30px;font-weight:800;color:var(--navy);margin:4px 0}
 
+.homeSnd{position:absolute;z-index:3;top:calc(18px + env(safe-area-inset-top));right:18px;background:rgba(255,255,255,.16);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.3);pointer-events:auto}
+.homeSnd:active{transform:translateY(2px);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.3)}
+.vrow{display:grid;grid-template-columns:120px 1fr 44px;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-weight:700;font-size:15px}
+.vrow output{font-size:13px;font-weight:700;color:var(--muted);text-align:right}
+.vrow input{-webkit-appearance:none;appearance:none;width:100%;height:30px;background:transparent;cursor:pointer}
+.vrow input::-webkit-slider-runnable-track{height:10px;border-radius:999px;background:linear-gradient(90deg,var(--navy) var(--p,50%),#dfe7f5 var(--p,50%))}
+.vrow input::-moz-range-track{height:10px;border-radius:999px;background:#dfe7f5}
+.vrow input::-moz-range-progress{height:10px;border-radius:999px;background:var(--navy)}
+.vrow input::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-8px;border-radius:50%;background:#fff;border:3px solid var(--orange);box-shadow:0 2px 6px rgba(14,44,107,.3)}
+.vrow input::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--orange)}
+
 /* ================= CELULAR ================= */
 @media (max-width:760px){
   #home{background:linear-gradient(180deg,rgba(10,31,79,.96) 0%,rgba(22,65,148,.82) 26%,rgba(22,65,148,0) 44%,rgba(22,65,148,0) 54%,rgba(22,65,148,.85) 70%,rgba(10,31,79,.97) 100%)}
@@ -188,6 +199,8 @@ img{display:block}
   #diceBtn{width:80px;height:80px}
   #topbar .brand{height:38px}
   .iconbtn{width:40px;height:40px;border-radius:12px}
+  .homeSnd{top:calc(14px + env(safe-area-inset-top));right:14px}
+  .vrow{grid-template-columns:96px 1fr 40px;gap:10px;font-size:14px}
   #players{top:calc(60px + env(safe-area-inset-top))}
   .pchip{padding:5px 8px 5px 5px;gap:6px}
   .pchip .av{width:24px;height:24px;border-radius:8px}
@@ -205,6 +218,7 @@ img{display:block}
 
 <!-- ======================= ENTRADA ======================= -->
 <section id="home" aria-label="Entrada">
+  <button class="iconbtn sndbtn homeSnd" id="btnSoundHome" aria-label="Som e música" title="Som e música"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path class="w" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="x hidden" d="m16 9 6 6m0-6-6 6"/></svg></button>
   <div class="col">
     <img class="logo" data-logo="white" alt="Xalingo">
     <div class="hero">
@@ -218,7 +232,7 @@ img{display:block}
         <button class="ghost" id="btnCode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8c-1.5-3-5-4-5.5-1.5S10 8 12 8zm0 0c1.5-3 5-4 5.5-1.5S14 8 12 8z"/></svg>Fases bônus <span class="pill hidden" id="bonusPill">liberadas</span></button>
         <button class="ghost" id="btnAdult"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9.5" r="2.2"/><path d="M15.5 14.4c.6-.3 1.3-.4 2-.4 2.5 0 4.5 2 4.5 4.5"/></svg>Adultos</button>
       </div>
-      <div class="foot"><img data-logo="seal" alt=""><span>Versão digital do Ludo Tridimensional Xalingo.<br>Sem cadastro e sem anúncios.</span></div>
+      <div class="foot"><img data-logo="seal" alt=""><span>Versão digital do Ludo Tridimensional Xalingo.<br>Sem cadastro e sem anúncios. <a href="../" style="color:#fff;font-weight:700">Mais jogos</a></span></div>
     </div>
   </div>
 </section>
@@ -228,7 +242,7 @@ img{display:block}
   <img class="brand" data-logo="oval" alt="Xalingo">
   <div class="sp"></div>
   <button class="iconbtn" id="btnCam" aria-label="Centralizar câmera" title="Centralizar câmera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
-  <button class="iconbtn" id="btnSound" aria-label="Ligar ou desligar o som" title="Som"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path class="w" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="x hidden" d="m16 9 6 6m0-6-6 6"/></svg></button>
+  <button class="iconbtn sndbtn" id="btnSound" aria-label="Som e música" title="Som e música"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path class="w" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="x hidden" d="m16 9 6 6m0-6-6 6"/></svg></button>
   <button class="iconbtn" id="btnMenu" aria-label="Pausar" title="Pausar"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1.5"/><rect x="14" y="5" width="4" height="14" rx="1.5"/></svg></button>
 </div>
 <div id="players" class="hidden"></div>
@@ -315,7 +329,7 @@ img{display:block}
         <p>Os modos <b>Turbo</b> e <b>Casas Mágicas</b> e o tabuleiro <b>Noite Estrelada</b> são liberados com o código impresso no manual do produto, ou pelo QR code do manual.</p>
         <a class="buy" id="buyLink" href="#" target="_blank" rel="noopener noreferrer">Conheça o Ludo Tridimensional</a>
         <h4>Privacidade</h4>
-        <p>Este jogo <b>não coleta nenhum dado</b>: não tem cadastro, anúncios, chat nem rastreamento, e não se conecta a nenhum servidor. As preferências e a liberação das fases ficam salvas só neste aparelho.</p>
+        <p>Este jogo <b>não coleta dados pessoais</b>: não tem cadastro, anúncios, chat nem rastreamento. A hospedagem registra apenas dados técnicos de acesso, por segurança. As preferências e a liberação das fases ficam salvas só neste aparelho.</p>
         <div class="btnrow"><button class="btn light" id="btnWipe">Apagar dados deste aparelho</button></div>
       </div>
     </div>
@@ -331,6 +345,19 @@ img{display:block}
       <h2 id="winTitle"></h2>
       <p id="winSub"></p>
       <div class="btnrow"><button class="btn light" id="winMenu">Voltar ao início</button><button class="btn orange" id="winAgain">Jogar de novo</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= SOM ======================= -->
+<div class="overlay modal hidden" id="mSound">
+  <div class="card" role="dialog" aria-labelledby="soundTitle">
+    <div class="head"><h2 id="soundTitle">Som e música</h2><button class="close" data-close aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="body">
+      <label class="vrow"><span>Volume geral</span><input type="range" min="0" max="100" step="1" data-vol="master"><output></output></label>
+      <label class="vrow"><span>Música</span><input type="range" min="0" max="100" step="1" data-vol="music"><output></output></label>
+      <label class="vrow"><span>Efeitos</span><input type="range" min="0" max="100" step="1" data-vol="sfx"><output></output></label>
+      <div class="btnrow"><button class="btn light" id="btnMute">Silenciar tudo</button><button class="btn dark" data-close>Pronto</button></div>
     </div>
   </div>
 </div>
@@ -397,27 +424,80 @@ const store = {
 };
 store.load();
 
-/* ---------------- som (gerado na hora) ---------------- */
-let actx = null, soundOn = store.data.sound !== false;
-function audio(){ if(!actx){ try{ actx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } if(actx && actx.state==='suspended') actx.resume(); return actx; }
-function tone(f, d=.12, type='sine', v=.15, when=0, slideTo=null){
-  if(!soundOn) return; const a = audio(); if(!a) return;
+/* ---------------- som e música (gerados na hora, sem arquivos) ---------------- */
+const vol = Object.assign({ master:.8, music:.4, sfx:.7 }, store.data.vol || {});
+let actx = null, masterBus = null, musicBus = null, sfxBus = null, noiseBuf = null;
+function audio(){
+  if(!actx){ try{
+    actx = new (window.AudioContext||window.webkitAudioContext)();
+    masterBus = actx.createGain(); musicBus = actx.createGain(); sfxBus = actx.createGain();
+    const lp = actx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 4200;
+    musicBus.connect(lp).connect(masterBus); sfxBus.connect(masterBus); masterBus.connect(actx.destination);
+    noiseBuf = actx.createBuffer(1, actx.sampleRate*.5, actx.sampleRate); const d = noiseBuf.getChannelData(0); for(let i=0;i<d.length;i++) d[i] = Math.random()*2-1;
+    applyVol(true);
+  }catch(e){ actx = null; } }
+  if(actx && actx.state==='suspended' && !document.hidden) actx.resume();
+  return actx;
+}
+function applyVol(now){ if(!actx) return; const t = actx.currentTime, k = now ? 0 : .06;
+  [[masterBus,vol.master],[musicBus,vol.music],[sfxBus,vol.sfx]].forEach(([g,v]) => { g.gain.cancelScheduledValues(t); g.gain.setTargetAtTime(v*v, t, k || .001); }); }
+const mtof = m => 440*Math.pow(2,(m-69)/12);
+function env(g, t, v, a, d){ g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + a); g.gain.exponentialRampToValueAtTime(.0001, t + a + d); }
+function tone(f, d=.12, type='sine', v=.15, when=0, slideTo=null, bus){
+  const a = audio(); if(!a) return;
   const t = a.currentTime + when, o = a.createOscillator(), g = a.createGain();
   o.type = type; o.frequency.setValueAtTime(f, t); if(slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t + d);
-  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(v, t + .01); g.gain.exponentialRampToValueAtTime(.001, t + d);
-  o.connect(g).connect(a.destination); o.start(t); o.stop(t + d + .02);
+  env(g, t, v, .008, d); o.connect(g).connect(bus || sfxBus); o.start(t); o.stop(t + d + .05);
+}
+function noise(t, dur, v, type, freq, q=1, bus){
+  const a = actx; if(!a) return; const s = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
+  s.buffer = noiseBuf; f.type = type; f.frequency.value = freq; f.Q.value = q;
+  env(g, t, v, .003, dur); s.connect(f).connect(g).connect(bus || sfxBus); s.start(t, Math.random()*.3); s.stop(t + dur + .05);
 }
 const sfx = {
-  dice(){ for(let i=0;i<6;i++) tone(300+Math.random()*500,.04,'square',.045,i*.07); },
-  hop(h){ tone(520 + h*120, .07, 'triangle', .11); },
-  out(){ tone(330,.12,'triangle',.13); tone(660,.18,'triangle',.13,.1); },
-  capture(){ tone(700,.35,'sawtooth',.07,0,140); },
-  top(){ [660,880,1100].forEach((f,i)=>tone(f,.16,'triangle',.12,i*.09)); },
-  magic(){ [520,780,1040,1300].forEach((f,i)=>tone(f,.1,'sine',.11,i*.05)); },
-  win(){ [523,659,784,1047,784,1047].forEach((f,i)=>tone(f,.22,'triangle',.14,i*.13)); },
-  nope(){ tone(200,.18,'square',.05); },
-  click(){ tone(900,.04,'sine',.07); }
+  // dado: chacoalhar no copo e quicar na mesa
+  dice(len=.7){ const a = audio(); if(!a) return; const t0 = a.currentTime;
+    let t = t0; while(t < t0 + len*.72){ noise(t, .035, .05+Math.random()*.04, 'bandpass', 1800+Math.random()*1800, 1.4); t += .045 + Math.random()*.05; }
+    [0, .09, .16].forEach((dt,i) => { const tt = t0 + len*.78 + dt, k = 1 - i*.3;
+      noise(tt, .05, .11*k, 'bandpass', 2600, 2.2); tone(170 - i*15, .09, 'sine', .07*k, tt - a.currentTime, 90); });
+  },
+  hop(h){ tone(560 + h*110, .07, 'triangle', .06); },
+  out(){ tone(392,.12,'triangle',.08); tone(784,.18,'triangle',.08,.09); },
+  capture(){ tone(640,.32,'triangle',.07,0,160); noise(actx ? actx.currentTime : 0, .2, .04, 'lowpass', 900); },
+  top(){ [784,988,1175,1568].forEach((f,i)=>tone(f,.18,'triangle',.07,i*.08)); },
+  magic(){ [523,784,1047,1319].forEach((f,i)=>tone(f,.12,'sine',.07,i*.05)); },
+  win(){ [523,659,784,1047,784,1047].forEach((f,i)=>tone(f,.24,'triangle',.09,i*.13)); },
+  nope(){ tone(220,.16,'square',.035); },
+  click(){ tone(1000,.035,'sine',.045); }
 };
+
+/* música de fundo: tema alegre em Dó maior, 8 compassos em loop */
+const BPM = 104, EIGHTH = 60/BPM/2;
+const PROG = ['C','G','Am','F','C','G','F','G'];
+const ROOT = { C:36, G:43, Am:45, F:41 };
+const CHORD = { C:[60,64,67,72], G:[55,59,62,67], Am:[57,60,64,69], F:[53,57,60,65] };
+const ARP = [0,1,2,3,2,1,2,1];
+const MEL = [
+  [76,0,79,0,81,79,76,0], [74,0,79,0,74,0,71,0], [72,0,76,0,81,0,79,76], [69,0,72,0,77,0,76,0],
+  [79,0,76,79,84,0,79,0], [83,0,79,0,74,0,79,0], [81,0,77,0,72,0,77,79], [76,74,72,0,0,0,74,0]
+];
+const music = { on:false, step:0, next:0, timer:0 };
+function startMusic(){ const a = audio(); if(!a || music.on) return; music.on = true; music.step = 0; music.next = a.currentTime + .15; music.timer = setInterval(scheduleMusic, 40); }
+function scheduleMusic(){ if(!actx || actx.state!=='running') return;
+  if(music.next < actx.currentTime - .5) music.next = actx.currentTime + .05;
+  while(music.next < actx.currentTime + .3){ playStep(music.step, music.next); music.next += EIGHTH; music.step = (music.step + 1) % 64; } }
+function voice(m, t, type, v, a, d, detune=0){ const o = actx.createOscillator(), g = actx.createGain();
+  o.type = type; o.frequency.value = mtof(m); o.detune.value = detune; env(g, t, v, a, d); o.connect(g).connect(musicBus); o.start(t); o.stop(t + a + d + .05); }
+function playStep(s, t){
+  const bar = s >> 3, e = s & 7, ch = PROG[bar], lap = Math.floor(music.step/64);
+  if(e===0 || e===4){ voice(ROOT[ch] + (e===4 ? 12 : 0), t, 'triangle', .16, .01, .38); }
+  if(e===0){ const o = actx.createOscillator(), g = actx.createGain(); o.frequency.setValueAtTime(120, t); o.frequency.exponentialRampToValueAtTime(45, t+.12); env(g, t, .14, .004, .16); o.connect(g).connect(musicBus); o.start(t); o.stop(t+.25); }
+  const n = CHORD[ch][ARP[e]]; voice(n, t, 'sine', .05, .005, .26); voice(n + 12, t, 'sine', .012, .005, .14);
+  const m = MEL[bar][e]; if(m){ voice(m, t, 'triangle', .07, .012, .42); voice(m, t, 'sine', .035, .012, .5, 6); }
+  if(e % 2 === 1) noise(t, .035, .018, 'highpass', 7000, .7, musicBus);
+}
+document.addEventListener('visibilitychange', () => { if(!actx) return; if(document.hidden) actx.suspend(); else actx.resume(); });
+['pointerdown','touchend','keydown'].forEach(ev => window.addEventListener(ev, () => { audio(); startMusic(); }, { passive:true }));
 
 /* =====================================================================
    TABULEIRO — grade 15×15 (coluna, linha)
@@ -447,7 +527,7 @@ const SAFE = new Set([0,8,13,21,26,34,39,47]);
 const ROCKET = new Set([4,17,30,43]);
 const BONUS = new Set([10,23,36,49]);
 const FINISH = 56;
-const BASE = .25, TILE_H = .1, TRACK_Y = BASE + TILE_H, YARD_Y = BASE + .24, STEP = .2, TOP = BASE + 1.36;
+const BASE = .25, TILE_H = .1, TRACK_Y = BASE + TILE_H, YARD_Y = BASE + .25, STEP = .2, TOP = BASE + 1.36;
 
 const ICONS = {
   dice:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="9" r="1.4" fill="currentColor"/><circle cx="15" cy="15" r="1.4" fill="currentColor"/><circle cx="15" cy="9" r="1.4" fill="currentColor"/><circle cx="9" cy="15" r="1.4" fill="currentColor"/></svg>',
@@ -474,7 +554,7 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 stage.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(36, 1, .1, 400);
+const camera = new THREE.PerspectiveCamera(36, 1, 1, 300); // perto/longe ajustados: evita o tremido de superfícies no celular
 const hemi = new THREE.HemisphereLight(0xffffff, 0xb8c9ea, .38);
 scene.add(hemi);
 const sun = new THREE.DirectionalLight(0xffffff, 1.9);
@@ -482,7 +562,7 @@ sun.position.set(8, 18, 10);
 sun.castShadow = true;
 sun.shadow.mapSize.set(2048, 2048);
 Object.assign(sun.shadow.camera, { left:-15, right:15, top:15, bottom:-15, near:1, far:60 });
-sun.shadow.bias = -.0004; sun.shadow.normalBias = .025; sun.shadow.radius = 4;
+sun.shadow.bias = -.0006; sun.shadow.normalBias = .04; sun.shadow.radius = 4;
 scene.add(sun);
 const glow = new THREE.PointLight(0xffd36b, 0, 16, 1.6);
 glow.position.set(0, TOP + 2.4, 0);
@@ -526,7 +606,7 @@ const skyMats = {}, floorMats = {};
 });
 const sky = new THREE.Mesh(new THREE.SphereGeometry(200, 40, 20), skyMats.day); sky.renderOrder = -1; scene.add(sky);
 const floor = new THREE.Mesh(new THREE.CircleGeometry(150, 72), floorMats.day);
-floor.rotation.x = -Math.PI/2; floor.position.y = -.42; floor.receiveShadow = true; scene.add(floor);
+floor.rotation.x = -Math.PI/2; floor.position.y = -.5; floor.receiveShadow = true; scene.add(floor);
 const stars = (() => {
   const n = 1100, pos = new Float32Array(n*3);
   for(let i=0;i<n;i++){ const u=Math.random(), th=Math.random()*Math.PI*2, r=170, s=Math.sqrt(1-u*u);
@@ -565,7 +645,8 @@ const rugTex = {};
   g.setLineDash([]); g.lineWidth = 4; g.beginPath(); g.arc(512,512,440,0,Math.PI*2); g.stroke();
   rugTex[k] = canvasTex(cv); });
 const rug = new THREE.Mesh(new THREE.CircleGeometry(16.5, 96), new THREE.MeshStandardMaterial({ map:rugTex.day, transparent:true, roughness:1 }));
-rug.rotation.x = -Math.PI/2; rug.position.y = -.405; rug.receiveShadow = true; scene.add(rug);
+rug.material.polygonOffset = true; rug.material.polygonOffsetFactor = -1; rug.material.polygonOffsetUnits = -4;
+rug.rotation.x = -Math.PI/2; rug.position.y = -.44; rug.receiveShadow = true; scene.add(rug);
 const groundToys = new THREE.Group(); scene.add(groundToys);
 (() => {
   const house = () => { const g = new THREE.Group();
@@ -602,7 +683,7 @@ const groundToys = new THREE.Group(); scene.add(groundToys);
 /* ---- tabuleiro ---- */
 const boardGroup = new THREE.Group(); scene.add(boardGroup);
 function add(mesh, x, y, z){ mesh.position.set(x,y,z); mesh.castShadow = mesh.receiveShadow = true; boardGroup.add(mesh); return mesh; }
-add(new THREE.Mesh(rbox(17.6,.62,17.6,.7), mat(0x0e2c6b,{ roughness:.5 })), 0, BASE-.31, 0);
+add(new THREE.Mesh(rbox(17.6,.62,17.6,.7), mat(0x0e2c6b,{ roughness:.5 })), 0, BASE-.34, 0);
 // borda elevada com o logo Xalingo
 (() => { const rr = (s, half, r, hole) => { const x=-half, y=-half, L=half*2;
     s.moveTo(x+r,y); s.lineTo(x+L-r,y); s.quadraticCurveTo(x+L,y,x+L,y+r); s.lineTo(x+L,y+L-r); s.quadraticCurveTo(x+L,y+L,x+L-r,y+L);
@@ -610,14 +691,14 @@ add(new THREE.Mesh(rbox(17.6,.62,17.6,.7), mat(0x0e2c6b,{ roughness:.5 })), 0, B
   const outer = new THREE.Shape(); rr(outer, 8.72, .62); const hole = new THREE.Path(); rr(hole, 7.62, .18); outer.holes.push(hole);
   const g = new THREE.ExtrudeGeometry(outer, { depth:.16, bevelEnabled:true, bevelThickness:.06, bevelSize:.06, bevelSegments:3, curveSegments:8 });
   g.rotateX(-Math.PI/2); g.computeVertexNormals();
-  add(new THREE.Mesh(g, plastic(0x164194,{ roughness:.4, clearcoat:.4 })), 0, BASE+.06, 0); })();
+  add(new THREE.Mesh(g, plastic(0x164194,{ roughness:.4, clearcoat:.4 })), 0, BASE+.03, 0); })();
 (() => { const im = new Image(); im.onload = () => {
   const t = new THREE.Texture(im); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = maxAniso; t.needsUpdate = true;
-  const m = new THREE.MeshBasicMaterial({ map:t, transparent:true, depthWrite:false });
+  const m = new THREE.MeshBasicMaterial({ map:t, transparent:true, depthWrite:false, polygonOffset:true, polygonOffsetFactor:-2, polygonOffsetUnits:-4 });
   const ar = im.width/im.height, h = .56, wd = h*ar;
   [[0,8.17,0],[0,-8.17,Math.PI],[8.17,0,Math.PI/2],[-8.17,0,-Math.PI/2]].forEach(([x,z,ry]) => {
     const p = new THREE.Mesh(new THREE.PlaneGeometry(wd,h), m); p.rotation.order = 'YXZ'; p.rotation.y = ry; p.rotation.x = -Math.PI/2;
-    p.position.set(x, BASE+.29, z); boardGroup.add(p); });
+    p.position.set(x, BASE+.27, z); boardGroup.add(p); });
 }; im.src = LOGO.white; })();
 // superfície (textura simples; pista, bases e escadas são 3D)
 const topMat = new THREE.MeshStandardMaterial({ roughness:.8 });
@@ -679,7 +760,7 @@ TEAM.forEach((t,p) => {
   add(new THREE.Mesh(rbox(4.5,.06,4.5,.42), mat(0xffffff,{ roughness:.55 })), x, BASE+.22, z);
   trayMats.push(m);
   PIT.forEach(([dx,dz]) => {
-    const disc = add(new THREE.Mesh(new THREE.CylinderGeometry(.42,.42,.012,40), mat(new THREE.Color(t.light),{ roughness:.6 })), x+dx, YARD_Y+.006, z+dz); disc.castShadow = false;
+    const disc = add(new THREE.Mesh(new THREE.CircleGeometry(.42,40), mat(new THREE.Color(t.light),{ roughness:.6, polygonOffset:true, polygonOffsetFactor:-2, polygonOffsetUnits:-4 })), x+dx, YARD_Y+.004, z+dz); disc.rotation.x = -Math.PI/2; disc.castShadow = false;
     const ring = new THREE.Mesh(new THREE.TorusGeometry(.43,.05,10,44), plastic(t.tray)); ring.rotation.x = Math.PI/2; add(ring, x+dx, YARD_Y+.02, z+dz);
   });
 });
@@ -696,7 +777,8 @@ add(new THREE.Mesh(rbox(3.05,TOP-BASE,3.05,.32), plastic(0x164194,{ roughness:.3
   tri([[0,512],[512,512],[256,256]],TEAM[3].board); tri([[0,0],[0,512],[256,256]],TEAM[0].board);
   g.strokeStyle = '#ffffff'; g.lineWidth = 10; g.beginPath(); g.moveTo(0,0); g.lineTo(512,512); g.moveTo(512,0); g.lineTo(0,512); g.stroke();
   const pl = new THREE.Mesh(new THREE.PlaneGeometry(2.62,2.62), new THREE.MeshStandardMaterial({ map:canvasTex(cv), roughness:.45 }));
-  pl.rotation.x = -Math.PI/2; pl.position.y = TOP+.003; pl.receiveShadow = true; boardGroup.add(pl); })();
+  pl.material.polygonOffset = true; pl.material.polygonOffsetFactor = -2; pl.material.polygonOffsetUnits = -4;
+  pl.rotation.x = -Math.PI/2; pl.position.y = TOP+.004; pl.receiveShadow = true; boardGroup.add(pl); })();
 add(new THREE.Mesh(rbox(.95,.34,.95,.2), plastic(0xffffff,{ roughness:.3 })), 0, TOP+.17, 0);
 const star = (() => { const s = new THREE.Shape(); for(let i=0;i<10;i++){ const a=Math.PI/2+i*Math.PI/5, r=i%2?.19:.44; const x=Math.cos(a)*r, y=Math.sin(a)*r; i?s.lineTo(x,y):s.moveTo(x,y);} s.closePath();
   const geo = new THREE.ExtrudeGeometry(s,{ depth:.12, bevelEnabled:true, bevelSize:.035, bevelThickness:.035, bevelSegments:3 }); geo.center();
@@ -889,7 +971,7 @@ function startTurn(){
 }
 async function rollDice(){
   if(!G || G.phase!=='roll') return;
-  const game = G; G.phase = 'rolling'; updateHUD(); sfx.dice();
+  const game = G; G.phase = 'rolling'; updateHUD(); sfx.dice(P(700)/1000/SPEED);
   const v = rand6(); await diceAnim(v); if(G!==game) return;
   G.dice = v;
   const mv = movable(G.cur, v);
@@ -1092,8 +1174,20 @@ $('#pauseQuit').onclick = () => { hide('#mPause'); goHome(); };
 $('#pauseRules').onclick = () => { hide('#mPause'); show('#mRules'); };
 $('#btnRules').onclick = () => { sfx.click(); show('#mRules'); };
 $('#btnCam').onclick = () => { sfx.click(); resetCamera(); };
-function paintSound(){ const b = $('#btnSound'); b.querySelector('.w').classList.toggle('hidden', !soundOn); b.querySelector('.x').classList.toggle('hidden', soundOn); }
-$('#btnSound').onclick = () => { soundOn = !soundOn; store.data.sound = soundOn; store.save(); paintSound(); sfx.click(); };
+/* ---- som e música ---- */
+let preMute = null;
+function paintSound(){
+  const off = vol.master === 0;
+  document.querySelectorAll('.sndbtn').forEach(b => { b.querySelector('.w').classList.toggle('hidden', off); b.querySelector('.x').classList.toggle('hidden', !off); });
+  document.querySelectorAll('[data-vol]').forEach(r => { const v = Math.round(vol[r.dataset.vol]*100); r.value = v; r.style.setProperty('--p', v+'%'); r.nextElementSibling.textContent = v + '%'; });
+  $('#btnMute').textContent = off ? 'Ligar o som' : 'Silenciar tudo';
+}
+function saveVol(){ store.data.vol = { master:vol.master, music:vol.music, sfx:vol.sfx }; store.save(); applyVol(); paintSound(); }
+document.querySelectorAll('[data-vol]').forEach(r => r.addEventListener('input', () => { vol[r.dataset.vol] = r.value/100; if(r.dataset.vol!=='master' && vol.master===0 && r.value>0) vol.master = .8; saveVol(); }));
+document.querySelectorAll('[data-vol="sfx"]').forEach(r => r.addEventListener('change', () => sfx.dice(.5)));
+$('#btnMute').onclick = () => { if(vol.master > 0){ preMute = vol.master; vol.master = 0; } else vol.master = preMute || .8; saveVol(); };
+const openSound = () => { audio(); startMusic(); paintSound(); show('#mSound'); };
+$('#btnSound').onclick = openSound; $('#btnSoundHome').onclick = openSound;
 paintSound();
 $('#winAgain').onclick = () => { hide('#mWin'); newGame({ mode:G.mode, night:G.night, players:G.players.map(pl => pl.type) }); };
 $('#winMenu').onclick = () => { hide('#mWin'); goHome(); };
@@ -1141,7 +1235,7 @@ $('#btnAdult').onclick = () => {
 $('#gateOk').onclick = () => { if(+$('#gateInp').value === gateAns){ hide('#gate'); show('#adultBody'); } else { sfx.nope(); $('#gateErr').textContent = 'Resposta incorreta. Tente de novo.'; } };
 $('#gateInp').addEventListener('keydown', e => { if(e.key==='Enter') $('#gateOk').click(); });
 $('#buyLink').href = CONFIG.LINK_PRODUTO;
-$('#btnWipe').onclick = () => { store.wipe(); soundOn = true; paintSound(); cfg.mode='classico'; cfg.night=false; renderSetup(); showToast('Dados apagados deste aparelho.'); };
+$('#btnWipe').onclick = () => { store.wipe(); Object.assign(vol, { master:.8, music:.4, sfx:.7 }); applyVol(); paintSound(); cfg.mode='classico'; cfg.night=false; renderSetup(); showToast('Dados apagados deste aparelho.'); };
 
 /* ---- confete ---- */
 function confetti(main){
