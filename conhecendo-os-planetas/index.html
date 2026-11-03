@@ -320,7 +320,7 @@ h1{font-size:clamp(2rem,9vw,2.9rem);line-height:1.02;font-weight:800;letter-spac
 
   <div id="joy" class="hidden" role="application" aria-label="Controle da nave: arraste para pilotar"><div class="joy-base"></div><div class="joy-knob" id="joyKnob"></div></div>
   <div id="naveBar" class="hidden">
-    <p class="dica-nave" id="dicaNave">Arraste o controle e leve a nave até um astro.</p>
+    <p class="dica-nave" id="dicaNave">Pare a nave em cima de um astro até o anel encher.</p>
     <button class="chip" id="bSairNave">
       <svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg> Sair da nave
     </button>
@@ -437,10 +437,10 @@ const SOM = (() => {
   const fx = {};
   let fila = [], cb = null, ativo = false, idx = 0, musLigada = false, gen = 0;
   const volMus = () => { try { mus.volume = ativo ? .25 : .7; } catch (e) {} };
-  function efeito(n) {
+  function efeito(n, vol = 1) {
     if (!prefs.efeitos) return;
     let a = fx[n]; if (!a) { a = fx[n] = new Audio(url(n)); a.preload = 'auto'; }
-    try { a.currentTime = 0; a.play().catch(() => {}); } catch (e) {}
+    try { a.volume = vol; a.currentTime = 0; a.play().catch(() => {}); } catch (e) {}
   }
   function musica(on) {
     musLigada = on;
@@ -812,26 +812,26 @@ function buildSystem({ occluder }) {
     m.position.copy(P(px, py, .0015)); m.scale.set(R(rx), R(ry), 1); m.rotation.z = THREE.MathUtils.degToRad(rot); m.renderOrder = 0;
     m.userData.alpha = alpha; root.add(m); return m;
   }
-  function add(key, px, py, model, { hover, pick: pr, depth, sh }) {
+  function add(key, px, py, model, { hover, pick: pr, depth, sh, rv }) {
     const holder = new THREE.Group(); holder.position.copy(P(px, py)); holder.add(model.obj);
     const hit = new THREE.Mesh(SPHERE, HIT_MAT); hit.scale.setScalar(pr); hit.userData.key = key; holder.add(hit); pick.push(hit);
     holder.visible = false; root.add(holder);
     const shadow = sh ? shadowOf(px, py, ...sh) : null;
-    items[key] = { key, holder, model, hover, pr, depth: depth ?? pr * 2.4, scale: 1, target: 1, t0: -1, bounce: -1, phase: Math.random() * 6, hit, shadow, rise: 0 };
+    items[key] = { key, holder, model, hover, pr, rv: rv ?? pr * .8, depth: depth ?? pr * 2.4, scale: 1, target: 1, t0: -1, bounce: -1, phase: Math.random() * 6, hit, shadow, rise: 0 };
     if (model.points) pointsList.push(...model.points);
   }
-  const pl = (k, x, y, r, o) => add(k, x, y, makePlanet(k, R(r), o), { hover: R(r) * 1.15 + .006, pick: R(r) * 1.15 + .006, sh: [r * 1.32, r * 1.32, 0, .94] });
+  const pl = (k, x, y, r, o) => add(k, x, y, makePlanet(k, R(r), o), { hover: R(r) * 1.15 + .006, pick: R(r) * 1.15 + .006, sh: [r * 1.32, r * 1.32, 0, .94], rv: R(r) });
 
-  add('sol', 95, 1115, makeSun(.13), { hover: 0, pick: .13, depth: .15 });
+  add('sol', 95, 1115, makeSun(.13), { hover: 0, pick: .13, depth: .15, rv: .12 });
   pl('mercurio', 513, 970, 42, { spin: .35, rim: '#ffb4a0' });
   pl('venus', 385, 651, 52, { spin: -.12, rim: '#ffd8a0' });
   pl('terra', 704, 802, 66, { spin: .4, tilt: -.41, rim: '#8fd4ff', rimS: 1 });
   pl('marte', 563, 406, 53, { spin: .38, tilt: -.44, rim: '#ffb0a0' });
   pl('jupiter', 1072, 694, 143, { spin: .55, tilt: -.05, rim: '#fff1c4' });
   pl('netuno', 1561, 193, 79, { spin: .45, tilt: -.5, rim: '#9cc0ff', rimS: .9 });
-  add('saturno', 1071, 299, makeRinged('saturno', R(103), { yaw: -.32, tilt: .47 }), { hover: R(103) * 1.15 + .008, pick: R(103) * 1.4, sh: [235, 132, -18, .94] });
-  add('urano', 1466, 529, makeRinged('urano', R(79), { yaw: .26, tilt: 1.42 }), { hover: R(79) * 1.15 + .006, pick: R(79) * 1.25, sh: [168, 104, 15, .94] });
-  add('lua', 598, 768, makePlanet('lua', R(19), { spin: .2, rim: '#ffffff', rimS: .4 }), { hover: .07, pick: .02, sh: [27, 27, 0, .9] });
+  add('saturno', 1071, 299, makeRinged('saturno', R(103), { yaw: -.32, tilt: .47 }), { hover: R(103) * 1.15 + .008, pick: R(103) * 1.4, sh: [235, 132, -18, .94], rv: R(103) });
+  add('urano', 1466, 529, makeRinged('urano', R(79), { yaw: .26, tilt: 1.42 }), { hover: R(79) * 1.15 + .006, pick: R(79) * 1.25, sh: [168, 104, 15, .94], rv: R(79) });
+  add('lua', 598, 768, makePlanet('lua', R(19), { spin: .2, rim: '#ffffff', rimS: .4 }), { hover: .07, pick: .02, sh: [27, 27, 0, .9], rv: R(19) });
   add('satelite', 690, 592, makeSatellite(.05), { hover: .06, pick: .045, sh: [84, 46, 38, .85] });
   add('astronauta', 872, 968, makeAstronaut(.034), { hover: .05, pick: .035, sh: [52, 56, 0, .85] });
   add('onibus', 895, 1090, makeShuttle(.07, 68), { hover: .045, pick: .055, sh: [182, 82, -17, .88] });
@@ -855,7 +855,22 @@ function buildSystem({ occluder }) {
   const nv = makeNave(.046), naveH = new THREE.Group(); naveH.add(nv.obj); naveH.visible = false; root.add(naveH);
   const naveSombra = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.MeshBasicMaterial({ map: SHADOW_TEX, transparent: true, depthWrite: false, opacity: 0 }));
   naveSombra.scale.setScalar(.05); naveSombra.position.z = .002; root.add(naveSombra);
-  const nave = { ativo: false, pos: new THREE.Vector2(), dir: new THREE.Vector2(), vel: new THREE.Vector2(), yaw: 0, t0: -1, sobre: null, onChegou: null };
+  const nave = { ativo: false, pos: new THREE.Vector2(), dir: new THREE.Vector2(), vel: new THREE.Vector2(), yaw: 0, t0: -1, sobre: null };
+  const miraMat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, depthTest: false,
+    uniforms: { p: { value: 0 }, c: { value: new THREE.Color(0x5cc6ea) } },
+    vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }`,
+    fragmentShader: `uniform float p; uniform vec3 c; varying vec2 vUv;
+      void main(){ vec2 d = vUv - .5; float r = length(d) * 2.; float a = atan(d.x, d.y) / 6.2831853 + .5;
+        float anel = smoothstep(.80, .84, r) * (1. - smoothstep(.96, 1., r));
+        float cheio = step(1. - a, p); vec3 cor = mix(c, vec3(.97, .85, .23), cheio);
+        gl_FragColor = vec4(cor, anel * (.28 + .72 * cheio)); }` });
+  const mira = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), miraMat); mira.visible = false; mira.renderOrder = 4; root.add(mira);
+  function marcarMira(k, prog) {
+    if (!k) { mira.visible = false; return; }
+    const it = items[k]; mira.visible = true; miraMat.uniforms.p.value = prog;
+    mira.position.set(it.holder.position.x, it.holder.position.y, it.holder.position.z);
+    mira.scale.setScalar(Math.max(it.rv * it.holder.scale.x * 1.35, .03)); mira.quaternion.identity();
+  }
 
   const ease = x => { const c1 = 1.5, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
   const clock = { t: 0 };
@@ -863,10 +878,9 @@ function buildSystem({ occluder }) {
   function setReal(on) { for (const k in items) items[k].target = on ? (ESCALA_REAL[k] ?? 1) : 1; }
   function select(k) { selected = k ? items[k] : null; halo.visible = !!selected; if (selected) selected.bounce = clock.t; }
   function pilotar(on) {
-    nave.ativo = on; naveH.visible = on; nave.sobre = null; nave.vel.set(0, 0); nave.dir.set(0, 0);
+    nave.ativo = on; naveH.visible = on; nave.sobre = null; nave.vel.set(0, 0); nave.dir.set(0, 0); mira.visible = false;
     if (on) { nave.t0 = clock.t; nave.pos.copy(P(1330, 830)); }       // começa num espaço vazio, entre Júpiter e as estrelas
   }
-  const zona = it => Math.max(it.pr * .9, .035) + .012;
   const tmp = new THREE.Vector3();
   function update(dt, t, viewportH) {
     clock.t = t;
@@ -911,18 +925,7 @@ function buildSystem({ occluder }) {
       for (const c of nv.chamas) c.scale.set(1, .5 + Math.min(1, sp * 4) + Math.sin(t * 29) * .1, 1);
       nv.brilho.material.opacity = .35 + Math.sin(t * 3) * .1;
       naveSombra.position.x = nave.pos.x; naveSombra.position.y = nave.pos.y; naveSombra.material.opacity = .45 * u;
-      // chegou perto de um astro?
-      let melhor = null, dmin = 1e9;
-      for (const k of ORDEM) {
-        const it = items[k]; if (!it.holder.visible) continue;
-        const d = Math.hypot(it.holder.position.x - nave.pos.x, it.holder.position.y - nave.pos.y);
-        if (d < zona(it) * Math.max(it.scale, .6) && d < dmin) { dmin = d; melhor = k; }
-      }
-      if (nave.sobre && !melhor) {
-        const it = items[nave.sobre]; const d = Math.hypot(it.holder.position.x - nave.pos.x, it.holder.position.y - nave.pos.y);
-        if (d > zona(it) * 1.6) nave.sobre = null;
-      }
-      if (melhor && melhor !== nave.sobre) { nave.sobre = melhor; nave.onChegou && nave.onChegou(melhor); }
+      // o encontro com os astros é calculado na tela (função encontroNave), do jeito que a criança vê
     } else naveSombra.material.opacity = 0;
     // destaque
     if (selected) {
@@ -931,7 +934,7 @@ function buildSystem({ occluder }) {
       halo.material.opacity = .55 + Math.sin(t * 4) * .3; halo.visible = selected.holder.visible;
     }
   }
-  return { root, pick, items, rise, setReal, select, update, nave, pilotar };
+  return { root, pick, items, rise, setReal, select, update, nave, pilotar, naveH, marcarMira };
 }
 
 /* =====================================================================
@@ -959,7 +962,7 @@ function toast(msg, ms = 3200) {
   ui.toast.textContent = msg; ui.toast.classList.add('on');
   clearTimeout(toast.h); toast.h = setTimeout(() => ui.toast.classList.remove('on'), ms);
 }
-const beep = () => SOM.efeito('beep');
+const beep = () => SOM.efeito('beep', .25);     // só nos botões, baixinho (antes tocava a cada astro e incomodava)
 
 /* ---------- botões de som ---------- */
 function syncSons() {
@@ -1015,7 +1018,7 @@ function showCard(k) {
   $('#cFatos').innerHTML = d.fatos.map((f, i) => `<li class="fato"><img src="${AS}icones/${k}_${i + 1}.webp" alt=""><span>${f.t}${f.nota ? `<small class="corr">${f.nota}</small>` : ''}</span></li>`).join('');
   marcarLeitura(-1);
   ui.card.classList.remove('fora'); ui.chips.classList.add('hidden');
-  sys && sys.select(k); beep();
+  sys && sys.select(k);
   descobrir(k);
   lerCartao(false);
 }
@@ -1041,7 +1044,7 @@ function pilotar(on) {
   sys.pilotar(on);
   ui.joy.classList.toggle('hidden', !on); ui.naveBar.classList.toggle('hidden', !on);
   // fala do app: "Use o controle para pilotar a nave, ou toque em um destino para explorar."
-  if (on) { naveUltima = performance.now(); hideCard(); ui.chips.classList.add('hidden'); SOM.narrar(['tutorial', 'toque_para_explorar']); toast('Arraste o controle para pilotar. Pare em cima de um astro para conhecê-lo!', 3600); }
+  if (on) { naveUltima = performance.now(); perdidoDito = false; enc.alvo = null; enc.carga = 0; hideCard(); ui.chips.classList.add('hidden'); SOM.narrar(['tutorial', 'toque_para_explorar']); toast('Arraste o controle e pare a nave em cima de um astro até o anel encher.', 3800); }
   else { joy.x = joy.y = 0; $('#joyKnob').style.transform = ''; if (!current) ui.chips.classList.remove('hidden'); }
 }
 $('#bNave').onclick = () => { beep(); pilotar(true); };
@@ -1070,11 +1073,11 @@ $('#bSairNave').onclick = () => { beep(); pilotar(false); hideCard(); };
 })();
 /* converte o controle (direções da tela) em direção sobre o tabuleiro, de onde a câmera estiver olhando */
 const _inv = new THREE.Matrix4(), _r = new THREE.Vector3(), _u = new THREE.Vector3();
-let naveUltima = 0;    // última vez que a nave chegou num astro
+let naveUltima = 0, perdidoDito = false;    // última vez que a nave chegou num astro
 function controleNave() {
   if (!sys || !sys.nave.ativo) return;
-  if (!current && performance.now() - naveUltima > 25000) {      // voando sem rumo: a dica do app
-    naveUltima = performance.now(); SOM.efeito('perdido'); toast('Ei! Está perdido no espaço? Toque direto em um destino para explorar.', 4200);
+  if (!perdidoDito && !current && !SOM.narrando && performance.now() - naveUltima > 40000) {      // voando sem rumo: a dica do app, uma vez só
+    perdidoDito = true; SOM.efeito('perdido'); toast('Ei! Está perdido no espaço? Pare a nave em cima de um astro para explorar.', 4200);
   }
   let [x, y] = joy.teclado() || [joy.x, joy.y];
   if (current && innerHeight > innerWidth) { x = y = 0; }       // cartão aberto em pé: a nave espera
@@ -1085,6 +1088,44 @@ function controleNave() {
   _r.normalize(); if (_u.lengthSq() < 1e-4) _u.set(-_r.y, _r.x, 0); _u.normalize();
   sys.nave.dir.set(_r.x * x + _u.x * y, _r.y * x + _u.y * y);
   if (sys.nave.dir.length() > 1) sys.nave.dir.normalize();
+}
+
+/* ---------- encontro da nave com os astros ----------
+   Calculado na TELA: conta quando a nave está visualmente em cima do astro (não só "perto"),
+   e só abre o cartão depois de a nave ficar ali por um instante (anel enchendo). */
+const ENC = { zona: .62, tempo: .7, sair: 1.35, pausa: 1.5 };   // zona = fração do raio do astro na tela; tempo em segundos
+const enc = { alvo: null, carga: 0, ultimo: 0 };
+const _pn = new THREE.Vector3(), _pc = new THREE.Vector3(), _pe = new THREE.Vector3(), _cr = new THREE.Vector3();
+function encontroNave(dt) {
+  if (!sys || !sys.nave.ativo || !camera) return;
+  const nv = sys.nave, W = renderer.domElement.clientWidth, H = renderer.domElement.clientHeight;
+  const px = v => [(v.x + 1) / 2 * W, (1 - v.y) / 2 * H];
+  sys.root.updateMatrixWorld();
+  const esc = sys.root.matrixWorld.getMaxScaleOnAxis();
+  _cr.set(1, 0, 0).transformDirection(camera.matrixWorld);
+  const pn = px(sys.naveH.getWorldPosition(_pn).project(camera));
+  let melhor = null, melhorRel = 1e9, relSobre = 1e9;
+  for (const k of ORDEM) {
+    const it = sys.items[k]; if (!it.holder.visible) continue;
+    it.holder.getWorldPosition(_pc);
+    _pe.copy(_pc).addScaledVector(_cr, it.rv * it.holder.scale.x * esc);
+    const c = px(_pc.project(camera)), e = px(_pe.project(camera));
+    const rpx = Math.max(Math.hypot(e[0] - c[0], e[1] - c[1]), 14);
+    const rel = Math.hypot(pn[0] - c[0], pn[1] - c[1]) / rpx;
+    if (k === nv.sobre) relSobre = rel;
+    if (rel < ENC.zona && rel < melhorRel) { melhorRel = rel; melhor = k; }
+  }
+  if (nv.sobre && relSobre > ENC.sair) nv.sobre = null;                 // saiu de cima do astro que já abriu
+  const agora = performance.now();
+  if (melhor && melhor !== nv.sobre && agora - enc.ultimo > ENC.pausa * 1000) {
+    if (melhor !== enc.alvo) { enc.alvo = melhor; enc.carga = 0; }
+    enc.carga += dt;
+    sys.marcarMira(melhor, Math.min(1, enc.carga / ENC.tempo));
+    if (enc.carga >= ENC.tempo) {
+      nv.sobre = melhor; enc.ultimo = agora; naveUltima = agora; enc.alvo = null; enc.carga = 0; sys.marcarMira(null);
+      viagem = false; showCard(melhor);
+    }
+  } else { enc.alvo = null; enc.carga = 0; sys.marcarMira(null); }
 }
 
 /* ---------- toque nos astros ---------- */
@@ -1165,7 +1206,7 @@ function stopAll() {
   ui.hud.classList.add('hidden'); ui.scan.classList.add('hidden'); ui.splash.classList.remove('hidden'); loading();
 }
 addEventListener('pagehide', () => { try { mind && mind.stop(); } catch (e) {} });
-function ligarNave() { sys.nave.onChegou = k => { viagem = false; naveUltima = performance.now(); showCard(k); }; }
+function ligarNave() {}
 
 /* =====================================================================
    Modo câmera (realidade aumentada) — MindAR reconhece a arte do QC
@@ -1207,7 +1248,7 @@ $('#bCamera').onclick = async () => {
       const dt = Math.min(clock.getDelta(), .05); renderer.getDrawingBufferSize(size);
       estab.update(anchor.group, seguidor, dt);
       controleNave();
-      sys.update(dt, clock.elapsedTime, size.y); renderer.render(scene, camera);
+      sys.update(dt, clock.elapsedTime, size.y); encontroNave(dt); renderer.render(scene, camera);
       if (window.__medir) medir(anchor.group, seguidor);
     });
   } catch (e) {
@@ -1257,7 +1298,7 @@ $('#bSemCamera').onclick = async () => {
     const clock = new THREE.Clock(), size = new THREE.Vector2();
     renderer.setAnimationLoop(() => {
       const dt = Math.min(clock.getDelta(), .05); renderer.getDrawingBufferSize(size);
-      controls.update(); controleNave(); sys.update(dt, clock.elapsedTime, size.y); renderer.render(scene, camera);
+      controls.update(); controleNave(); sys.update(dt, clock.elapsedTime, size.y); encontroNave(dt); renderer.render(scene, camera);
     });
   } catch (e) { console.error(e); stopAll(); aviso('Não consegui montar a cena 3D neste aparelho.'); }
 };
@@ -1289,7 +1330,12 @@ function boardTexture() {
 }
 
 /* ganchos para teste automatizado (não interferem no uso) */
-window.__app = { get sys() { return sys; }, get mode() { return mode; }, showCard, hideCard, stats: STATS, med: MED, joy, pilotar, get modelos() { return !!MOD; },
+window.__app = { get sys() { return sys; }, get mode() { return mode; }, showCard, hideCard, stats: STATS, med: MED, enc, ENC,
+  relNave(k) { if (!sys || !camera) return null; const W = renderer.domElement.clientWidth, H = renderer.domElement.clientHeight, px = v => [(v.x + 1) / 2 * W, (1 - v.y) / 2 * H];
+    sys.root.updateMatrixWorld(); const esc = sys.root.matrixWorld.getMaxScaleOnAxis(), cr = new THREE.Vector3(1, 0, 0).transformDirection(camera.matrixWorld), it = sys.items[k];
+    const pn = px(sys.naveH.getWorldPosition(new THREE.Vector3()).project(camera)), pc = it.holder.getWorldPosition(new THREE.Vector3()), pe = pc.clone().addScaledVector(cr, it.rv * it.holder.scale.x * esc);
+    const c = px(pc.project(camera)), e = px(pe.project(camera)), r = Math.max(Math.hypot(e[0] - c[0], e[1] - c[1]), 14);
+    return { rel: Math.hypot(pn[0] - c[0], pn[1] - c[1]) / r, dx: (c[0] - pn[0]) / r, dy: (c[1] - pn[1]) / r }; }, joy, pilotar, get modelos() { return !!MOD; },
   focar(k, dist = .22) { if (!controls) return; const p = k === 'nave' ? new THREE.Vector3(sys.nave.pos.x, sys.nave.pos.y, NAVE_Z) : sys.items[k].holder.getWorldPosition(new THREE.Vector3());
     controls.target.copy(p); camera.position.set(p.x - dist * .2, p.y - dist * .55, p.z + dist * .8); controls.update(); },
   screenOf(k) { if (!sys || !camera) return null; const v = sys.items[k].holder.getWorldPosition(new THREE.Vector3()).project(camera);
