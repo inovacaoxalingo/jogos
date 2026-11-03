@@ -962,7 +962,7 @@ function toast(msg, ms = 3200) {
   ui.toast.textContent = msg; ui.toast.classList.add('on');
   clearTimeout(toast.h); toast.h = setTimeout(() => ui.toast.classList.remove('on'), ms);
 }
-const beep = () => SOM.efeito('beep', .25);     // só nos botões, baixinho (antes tocava a cada astro e incomodava)
+const beep = () => {};     // bip removido do jogo inteiro (incomodava, inclusive ao fechar os cartões)
 
 /* ---------- botões de som ---------- */
 function syncSons() {
