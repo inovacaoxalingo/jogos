@@ -1,0 +1,835 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Conhecendo o Corpo Humano – Xalingo</title>
+<meta name="description" content="STEAM Interactive Play – Quebra-cabeça Conhecendo o Corpo Humano (ref. 53309). Escaneie o QR code do quebra-cabeça e explore os sistemas do corpo com narração, 3D e realidade aumentada.">
+<meta name="theme-color" content="#164194">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="assets/icone.webp">
+<link rel="apple-touch-icon" href="assets/apple-touch.png">
+<!--MANIFESTO--><link rel="manifest" href="manifest.webmanifest"><!--/MANIFESTO-->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Corpo Humano">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Xalingo Brinquedos">
+<meta property="og:title" content="Conhecendo o Corpo Humano – Xalingo">
+<meta property="og:description" content="Monte o quebra-cabeça, escaneie o QR code e explore os sistemas do corpo humano em 3D.">
+<meta property="og:url" content="https://inovacaoxalingo.github.io/jogos/corpo-humano/">
+<meta property="og:image" content="https://inovacaoxalingo.github.io/jogos/corpo-humano/assets/compartilhar.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+@font-face{font-family:'Open Sans';font-style:normal;font-weight:300 800;font-display:swap;src:url('assets/fonts/open-sans.woff2') format('woff2')}
+:root{
+  --azul:#164194; --azul-esc:#0E2C6B; --amarelo:#FFD200; --vermelho:#E10000; --verde:#60D437;
+  --texto:#1D2540; --suave:#5B6380; --fundo:#F7F5F0; --cartao:#FFFFFF;
+  --raio:22px; --sombra:0 6px 0 rgba(14,44,107,.18), 0 10px 24px rgba(14,44,107,.12);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{font-family:'Open Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--texto);background:var(--fundo) url('assets/doodles.webp') center/900px auto repeat;overscroll-behavior-y:none}
+button,a{font:inherit;color:inherit;border:0;background:none;cursor:pointer;touch-action:manipulation}
+a{text-decoration:none}
+img{max-width:100%;display:block}
+:focus-visible{outline:3px solid var(--azul);outline-offset:3px;border-radius:12px}
+.app{max-width:760px;margin:0 auto;min-height:100%;padding:calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 28px)}
+.topo{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.topo .logo{height:44px;width:auto}
+.topo .esp{flex:1}
+.ico-btn{width:46px;height:46px;border-radius:14px;background:#fff;display:grid;place-items:center;box-shadow:0 3px 0 rgba(14,44,107,.15);font-size:21px}
+.ico-btn[aria-pressed="false"]{opacity:.45}
+.voltar{display:inline-flex;align-items:center;gap:6px;height:46px;padding:0 16px 0 12px;border-radius:14px;background:#fff;font-weight:800;color:var(--azul);box-shadow:0 3px 0 rgba(14,44,107,.15)}
+.voltar svg{width:20px;height:20px}
+.tela{display:none;animation:entra .28s ease}
+.tela.ativa{display:block}
+@keyframes entra{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.painel{background:var(--cartao);border-radius:var(--raio);box-shadow:var(--sombra);padding:18px}
+h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.01em}
+h2{font-size:clamp(22px,5.6vw,30px);text-transform:uppercase}
+.sub{color:var(--suave);font-size:15px;line-height:1.45;margin:8px 0 0}
+.ref{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;color:var(--suave);background:#F0EEE8;border-radius:999px;padding:4px 10px}
+.aviso{display:none;margin-bottom:14px;padding:14px 16px;border-radius:16px;background:#FFE9E3;color:#7A1F0A;font-size:14px;line-height:1.45;border:2px solid #F5B7A6}
+.aviso.on{display:block}
+
+/* início */
+.capa{text-align:center;padding:22px 18px 20px}
+.capa .ip{width:min(420px,90%);margin:0 auto}
+.escolha{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.escolha button{border-radius:var(--raio);transition:transform .12s}
+.escolha button:active{transform:scale(.97)}
+.escolha img{width:100%;height:auto;filter:drop-shadow(0 6px 10px rgba(14,44,107,.22))}
+.escolha .leg{display:block;margin-top:6px;font-size:13px;font-weight:700;color:var(--suave)}
+.liberado{margin-top:16px;display:none}
+.liberado.on{display:block}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:58px;padding:12px 18px;border-radius:18px;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.01em;background:var(--azul);color:#fff;box-shadow:0 5px 0 var(--azul-esc);transition:transform .1s, box-shadow .1s}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--azul-esc)}
+.btn.amarelo{background:var(--amarelo);color:var(--azul-esc);box-shadow:0 5px 0 #C9A400}
+.btn.branco{background:#fff;color:var(--azul);box-shadow:0 5px 0 #D5D2C8}
+.btn.peq{min-height:46px;font-size:15px}
+.btn+.btn{margin-top:12px}
+.nav-sis .btn+.btn,.ctrl .btn+.btn,.atalhos .btn+.btn{margin-top:0}
+.btn small{display:block;font-size:12px;font-weight:700;text-transform:none;opacity:.8}
+.dica{margin-top:16px;padding:14px;border-radius:16px;background:#FFF7D6;color:#5A4A00;font-size:14px;line-height:1.45}
+.dica b{color:#3D3200}
+.dica img{margin-top:10px;border-radius:12px;width:100%;height:auto;box-shadow:0 3px 10px rgba(0,0,0,.12)}
+.ajuda{margin-top:16px}
+.ajuda h3{font-size:16px;text-transform:uppercase;color:var(--azul);margin:0 0 8px}
+.ajuda details{background:#fff;border-radius:16px;box-shadow:0 3px 0 rgba(14,44,107,.1);margin-top:8px}
+.ajuda summary{list-style:none;padding:14px 16px;font-weight:800;font-size:15px;display:flex;justify-content:space-between;gap:10px;cursor:pointer}
+.ajuda summary::-webkit-details-marker{display:none}
+.ajuda summary::after{content:"+";font-size:20px;line-height:1;color:var(--azul)}
+.ajuda details[open] summary::after{content:"–"}
+.ajuda details p{margin:0;padding:0 16px 14px;color:var(--suave);font-size:14px;line-height:1.5}
+.ajuda details a{color:var(--azul);font-weight:700;text-decoration:underline}
+.rodape{text-align:center;color:var(--suave);font-size:12px;margin-top:22px;line-height:1.6}
+.rodape a{color:var(--azul);text-decoration:underline}
+
+/* lista de sistemas */
+.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;margin-top:16px}
+.sis{position:relative;border-radius:var(--raio);background:var(--c);color:#fff;padding:12px 10px 14px;text-align:center;box-shadow:0 6px 0 rgba(0,0,0,.18);overflow:hidden;transition:transform .12s;display:block}
+.sis:active{transform:scale(.97)}
+.sis::before{content:"";position:absolute;inset:auto -30% -45% -30%;height:70%;background:rgba(255,255,255,.18);border-radius:50%}
+.sis img{position:relative;height:170px;width:auto;margin:0 auto;filter:drop-shadow(0 4px 6px rgba(0,0,0,.2))}
+.sis b{position:relative;display:block;margin-top:8px;font-size:15px;line-height:1.15;text-transform:uppercase;text-shadow:0 1px 2px rgba(0,0,0,.25)}
+.sis small{position:relative;display:block;font-size:12px;opacity:.9;font-weight:600}
+.atalhos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+
+/* sistema */
+.cab-sis{background:var(--c);color:#fff;border-radius:var(--raio);padding:16px 18px;box-shadow:0 6px 0 rgba(0,0,0,.16);display:flex;align-items:center;gap:12px}
+.cab-sis h2{font-size:clamp(20px,5.4vw,28px);line-height:1.05}
+.cab-sis small{display:block;font-weight:700;opacity:.9;margin-top:2px}
+.cab-sis img{height:74px;width:auto;margin-left:auto;filter:drop-shadow(0 3px 4px rgba(0,0,0,.25))}
+.palco{position:relative;margin-top:14px;border-radius:var(--raio);background:radial-gradient(120% 90% at 50% 15%,#fff 0%,#F2EFE7 70%);box-shadow:var(--sombra);overflow:hidden;height:min(62vh,430px)}
+.palco model-viewer{width:100%;height:100%;--poster-color:transparent;background:transparent}
+.palco .carregando{position:absolute;inset:0;display:grid;place-items:center;color:var(--suave);font-weight:700;font-size:14px;text-align:center;padding:20px}
+.palco .desenho{position:absolute;inset:0;display:none;place-items:center;padding:14px}
+.palco .desenho img{height:100%;width:auto;object-fit:contain}
+.palco.ver-desenho .desenho{display:grid}
+.palco.ver-desenho #mvHost,.palco.ver-desenho .carregando{visibility:hidden}
+.abas{position:absolute;top:12px;left:12px;display:flex;background:rgba(255,255,255,.9);border-radius:999px;padding:4px;box-shadow:0 2px 8px rgba(0,0,0,.08);z-index:3}
+.abas button{padding:8px 14px;border-radius:999px;font-weight:800;font-size:13px;color:var(--suave)}
+.abas button[aria-selected="true"]{background:var(--c);color:#fff}
+.btn-ra{position:absolute;right:12px;bottom:12px;display:inline-flex;align-items:center;gap:8px;padding:12px 16px;border-radius:16px;background:var(--azul);color:#fff;font-weight:800;font-size:15px;box-shadow:0 4px 0 var(--azul-esc);z-index:3}
+.btn-ra svg{width:22px;height:22px}
+.selo-tam[hidden]{display:none!important}
+.selo-tam{position:absolute;left:12px;bottom:14px;font-size:12px;font-weight:700;color:var(--suave);background:rgba(255,255,255,.88);padding:6px 10px;border-radius:10px;z-index:2;max-width:52%}
+.nav-sis{display:flex;gap:10px;margin-top:14px}
+.nav-sis .btn{font-size:14px;min-height:48px}
+.ouvir-tudo{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px;border-radius:16px;background:#fff;color:var(--c);font-weight:800;font-size:15px;text-transform:uppercase;box-shadow:0 4px 0 rgba(14,44,107,.12);border:2px solid var(--c)}
+.ouvir-tudo[aria-pressed="true"]{background:var(--c);color:#fff}
+.audios{margin-top:12px;display:grid;gap:10px}
+.faixa{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:18px;background:#fff;box-shadow:0 4px 0 rgba(14,44,107,.12);transition:transform .1s}
+.faixa:active{transform:translateY(2px)}
+.faixa .play{flex:none;width:48px;height:48px;border-radius:50%;background:var(--c);color:#fff;display:grid;place-items:center}
+.faixa .play svg{width:22px;height:22px}
+.faixa b{display:block;font-size:16px;text-transform:uppercase;line-height:1.15}
+.faixa small{display:block;font-size:12.5px;color:var(--suave);font-weight:600;margin-top:2px}
+.faixa.principal{background:var(--c);color:#fff}
+.faixa.principal .play{background:#fff;color:var(--c)}
+.faixa.principal small{color:rgba(255,255,255,.85)}
+.faixa .barra{height:5px;border-radius:5px;background:rgba(0,0,0,.08);margin-top:8px;overflow:hidden;display:none}
+.faixa .barra i{display:block;height:100%;width:0;background:var(--c)}
+.faixa.principal .barra{background:rgba(255,255,255,.3)}
+.faixa.principal .barra i{background:#fff}
+.faixa.tocando .barra{display:block}
+.legenda{display:none;margin:-2px 4px 4px;padding:14px 16px;border-radius:16px;background:#fff;border:2px dashed var(--c);font-size:16px;line-height:1.55}
+.legenda.on{display:block}
+.legenda .ttl{font-weight:800;color:var(--c);text-transform:uppercase;font-size:13px;margin-bottom:4px}
+.legenda .nota{margin-top:10px;padding:10px 12px;border-radius:12px;background:#EEF3FF;color:#1B2B5E;font-size:14.5px;line-height:1.5}
+.obs-som{font-size:12.5px;color:var(--suave);text-align:center;margin-top:10px}
+
+/* memória */
+.niveis{display:grid;gap:12px;margin-top:16px}
+.placar{display:flex;gap:10px;justify-content:center;margin:12px 0}
+.placar span{background:#fff;border-radius:999px;padding:8px 14px;font-weight:800;font-size:14px;box-shadow:0 3px 0 rgba(14,44,107,.12)}
+.tabuleiro{display:grid;gap:10px;grid-template-columns:repeat(var(--cols),1fr);max-width:620px;margin:0 auto;perspective:900px}
+.carta{position:relative;aspect-ratio:1;border-radius:16px;transform-style:preserve-3d;transition:transform .42s cubic-bezier(.3,1.3,.5,1)}
+.carta .face{position:absolute;inset:0;border-radius:16px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;background:#fff;box-shadow:0 4px 0 rgba(14,44,107,.18)}
+.carta .face img{width:100%;height:100%;object-fit:cover}
+.carta .frente{transform:rotateY(180deg)}
+.carta.virada,.carta.par{transform:rotateY(180deg)}
+.carta.par .frente{box-shadow:0 0 0 4px var(--verde),0 4px 0 rgba(14,44,107,.18)}
+.carta.par{animation:pulo .5s ease .1s}
+@keyframes pulo{50%{transform:rotateY(180deg) scale(1.08)}}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom) + 22px);transform:translateX(-50%) translateY(20px);opacity:0;background:var(--azul);color:#fff;font-weight:800;padding:12px 18px;border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,.25);transition:.25s;z-index:80;text-align:center;max-width:90vw;pointer-events:none}
+.toast small{display:block;font-weight:600;opacity:.85;font-size:12.5px}
+.toast.on{opacity:1;transform:translateX(-50%)}
+
+/* desafio */
+.pergunta{font-size:clamp(18px,4.8vw,22px);font-weight:800;line-height:1.3;margin:6px 0 14px}
+.opcoes{display:grid;gap:10px}
+.opcoes button{padding:14px 16px;border-radius:16px;background:#F4F2EC;font-weight:700;font-size:16px;text-align:left;border:3px solid transparent}
+.opcoes button.certa{background:#E5F8DC;border-color:var(--verde)}
+.opcoes button.errada{background:#FDE3E3;border-color:var(--vermelho)}
+.expl{display:none;margin-top:12px;padding:12px 14px;border-radius:14px;background:#EEF3FF;font-size:15px;line-height:1.5}
+.expl.on{display:block}
+.prog{height:8px;border-radius:8px;background:#ECE9E1;overflow:hidden;margin-top:12px}
+.prog i{display:block;height:100%;background:var(--azul);width:0;transition:width .3s}
+
+/* leitor de QR */
+.scan{position:fixed;inset:0;z-index:40;background:#000;display:none;flex-direction:column}
+.scan.on{display:flex}
+.scan video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scan .mira{position:absolute;left:50%;top:44%;width:min(66vw,320px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:26px;box-shadow:0 0 0 200vmax rgba(0,0,0,.5)}
+.scan .mira::before,.scan .mira::after{content:"";position:absolute;inset:0;border-radius:26px;border:4px solid var(--amarelo)}
+.scan .mira::after{border:0;height:3px;inset:auto 14px auto 14px;top:50%;background:linear-gradient(90deg,transparent,var(--amarelo),transparent);animation:varre 1.8s ease-in-out infinite}
+@keyframes varre{0%,100%{top:12%}50%{top:88%}}
+.scan .topo-s{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:calc(env(safe-area-inset-top) + 12px) 14px 0}
+.scan .msg{position:relative;z-index:2;margin:auto 16px 0;color:#fff;text-align:center;font-weight:700;font-size:16px;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.scan .msg small{display:block;font-weight:600;font-size:13px;opacity:.9;margin-top:4px}
+.scan .ctrl{position:relative;z-index:2;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:14px 14px calc(env(safe-area-inset-bottom) + 18px)}
+.scan .ctrl .btn{width:auto;min-height:50px;font-size:14px}
+.scan .zoom{position:relative;z-index:2;display:none;align-items:center;gap:10px;color:#fff;font-weight:700;font-size:13px;margin:12px auto 0;width:min(80vw,340px)}
+.scan .zoom.on{display:flex}
+.scan .zoom input{flex:1;accent-color:var(--amarelo)}
+.scan .fechar{width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.18);color:#fff;font-size:24px;display:grid;place-items:center}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:60;background:rgba(14,30,70,.55);display:none;align-items:center;justify-content:center;padding:20px}
+.modal.on{display:flex}
+.modal .caixa{width:min(440px,100%);background:var(--amarelo);border-radius:28px;padding:22px 20px 20px;text-align:center;box-shadow:0 8px 0 #C9A400,0 20px 50px rgba(0,0,0,.35);animation:pop .35s cubic-bezier(.3,1.5,.5,1)}
+@keyframes pop{from{transform:scale(.7);opacity:0}}
+.modal .selo{display:inline-block;background:var(--azul);color:#fff;font-weight:800;padding:8px 18px;border-radius:14px;margin-top:-44px;box-shadow:0 4px 0 var(--azul-esc);text-transform:uppercase;font-size:18px}
+.modal h3{font-size:24px;color:var(--azul-esc);margin:14px 0 6px;text-transform:uppercase;line-height:1.15}
+.modal p{margin:0 0 16px;color:#3D3200;font-weight:600;line-height:1.45}
+.estrelas{font-size:40px;letter-spacing:4px;margin:4px 0 8px}
+.confete{position:fixed;inset:0;pointer-events:none;z-index:70}
+@media (min-width:640px){.sis img{height:200px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topo">
+    <img class="logo" src="assets/logo_xalingo.webp" alt="Xalingo">
+    <div class="esp"></div>
+    <button class="ico-btn" id="btnMusica" aria-pressed="false" title="Música" aria-label="Música de fundo">🎵</button>
+    <button class="ico-btn" id="btnSom" aria-pressed="true" title="Sons" aria-label="Sons">🔊</button>
+  </header>
+  <div class="aviso" id="avisoApp" role="alert"></div>
+
+  <!-- INÍCIO -->
+  <section class="tela" id="t-inicio">
+    <div class="painel capa">
+      <h1 class="sr" style="position:absolute;left:-9999px">Conhecendo o Corpo Humano</h1>
+      <img class="ip" src="assets/logo_ip.webp" alt="Interactive Play – Conhecendo o Corpo Humano">
+      <span class="ref">STEAM Interactive Play · ref. 53309</span>
+      <p class="sub">Monte o quebra-cabeça e escaneie o QR code que fica na parte laranja para liberar os 5 sistemas do corpo humano com narração, 3D e realidade aumentada.</p>
+      <div class="escolha">
+        <button id="btnTenho"><img src="assets/btn_tenho.webp" alt="Tenho o jogo físico"><span class="leg" id="legTenho">Escanear o QR code</span></button>
+        <button id="btnNaoTenho"><img src="assets/btn_naotenho.webp" alt="Não tenho o jogo físico – jogo da memória"><span class="leg">Jogar a memória</span></button>
+      </div>
+      <div class="liberado" id="boxLiberado">
+        <button class="btn" data-ir="#/sistemas">🧠 Explorar os sistemas</button>
+        <button class="btn amarelo" data-ir="#/desafio">🏆 Desafio do corpo humano</button>
+      </div>
+    </div>
+    <div class="dica" id="dicaQR"><b>💡 Onde fica o QR code?</b> Na parte laranja do quebra-cabeça, perto do Sistema Cardiovascular. Deixe bem iluminado, sem reflexo de luz em cima, e aproxime o celular até o QR ocupar boa parte do quadrado amarelo.
+      <img src="assets/onde-qr.webp" alt="Quebra-cabeça montado com o QR code destacado na parte laranja, à direita" loading="lazy" width="640" height="438"></div>
+
+    <div class="ajuda">
+      <h3>Ajuda para pais e professores</h3>
+      <details><summary>Como funciona?</summary><p>Depois de montar as 100 peças, escaneie o QR code com esta página. Ela libera os 5 sistemas do corpo com narração, legenda, modelos em 3D e realidade aumentada, além de um desafio de perguntas. O jogo da memória fica liberado para todos. Não precisa instalar nada.</p></details>
+      <details><summary>A câmera não abre</summary><p id="ajudaCamera">Abra esta página no Safari (iPhone) ou no Chrome (Android), e não dentro do Instagram, WhatsApp ou Facebook. Quando o navegador perguntar, toque em <b>Permitir</b>. Se já bloqueou: no iPhone, vá em Ajustes › Safari › Câmera › Permitir; no Android, toque no cadeado ao lado do endereço › Permissões › Câmera. Se ainda assim não ler, use o botão <b>Tirar foto do QR</b>.</p></details>
+      <details><summary>Não tem som</summary><p>Aumente o volume do celular e confira se o botão 🔊 no alto da página está ligado. As narrações também aparecem escritas na tela, enquanto tocam.</p></details>
+      <details><summary>Usar como aplicativo</summary><p id="ajudaInstalar">No iPhone, toque em Compartilhar › Adicionar à Tela de Início. No Android, abra o menu ⋮ do Chrome › Adicionar à tela inicial. O ícone fica junto com seus apps.</p></details>
+      <details><summary>Privacidade</summary><p id="ajudaPrivacidade">A câmera é usada só para ler o QR code: nenhuma imagem sai do seu celular e não pedimos nenhum dado pessoal. A liberação fica salva só neste aparelho. <a href="https://www.xalingo.com.br/politicas/corpohumano/" target="_blank" rel="noopener">Política de privacidade</a>.</p></details>
+    </div>
+    <p class="rodape">© Xalingo Brinquedos · STEAM Interactive Play · ref. 53309<br><span id="versao">versão 1.0 · 03/11/2026</span></p>
+  </section>
+
+  <!-- SISTEMAS -->
+  <section class="tela" id="t-sistemas">
+    <div class="topo" style="margin-bottom:0"><a class="voltar" href="#/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>Início</a></div>
+    <div style="margin-top:14px"><h2>Os sistemas do corpo</h2><p class="sub">Escolha um sistema para ouvir, ver em 3D e colocar na sua mesa.</p></div>
+    <div class="grade" id="gradeSis"></div>
+    <div class="atalhos">
+      <button class="btn amarelo peq" data-ir="#/desafio">🏆 Desafio</button>
+      <button class="btn branco peq" data-ir="#/memoria">🃏 Memória</button>
+    </div>
+  </section>
+
+  <!-- SISTEMA -->
+  <section class="tela" id="t-sistema">
+    <div class="topo" style="margin-bottom:12px"><a class="voltar" href="#/sistemas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>Sistemas</a></div>
+    <div class="cab-sis"><div><h2 id="sisNome"></h2><small id="sisSub"></small></div><img id="sisFigMini" alt=""></div>
+    <div class="palco" id="palco">
+      <div class="abas" role="tablist">
+        <button role="tab" aria-selected="true" data-aba="3d">3D</button>
+        <button role="tab" aria-selected="false" data-aba="desenho">Desenho</button>
+      </div>
+      <div class="carregando" id="carregando3d">Carregando o modelo 3D…</div>
+      <div id="mvHost" style="position:absolute;inset:0"></div>
+      <div class="desenho"><img id="sisFig" alt=""></div>
+      <span class="selo-tam" id="seloTam" hidden></span>
+    </div>
+    <button class="ouvir-tudo" id="ouvirTudo" aria-pressed="false"></button>
+    <div class="audios" id="listaAudios"></div>
+    <p class="obs-som">🔊 Sem som? Aumente o volume do celular. As narrações aparecem escritas enquanto tocam.</p>
+    <div class="nav-sis">
+      <button class="btn branco" id="sisAnt">‹ Anterior</button>
+      <button class="btn branco" id="sisProx">Próximo ›</button>
+    </div>
+  </section>
+
+  <!-- MEMÓRIA -->
+  <section class="tela" id="t-memoria">
+    <div class="topo" style="margin-bottom:0"><a class="voltar" href="#/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>Início</a></div>
+    <div id="memEscolha">
+      <div style="margin-top:14px"><h2>Jogo da memória</h2><p class="sub">Vire as cartas e encontre os pares dos órgãos do corpo humano. Quanto menos cliques, mais pontos!</p></div>
+      <div class="niveis">
+        <button class="btn" data-pares="6"><span>Fácil · 6 pares<small data-rec="6"></small></span></button>
+        <button class="btn amarelo" data-pares="8"><span>Médio · 8 pares<small data-rec="8"></small></span></button>
+        <button class="btn branco" data-pares="12"><span>Difícil · 12 pares<small data-rec="12"></small></span></button>
+      </div>
+    </div>
+    <div id="memJogo" style="display:none">
+      <div class="placar"><span id="memCliques">Cliques: 0</span><span id="memPares">Pares: 0/0</span></div>
+      <div class="tabuleiro" id="tabuleiro"></div>
+      <div class="nav-sis"><button class="btn branco peq" id="memRecomecar">↻ Recomeçar</button><button class="btn branco peq" id="memNivel">Trocar nível</button></div>
+    </div>
+  </section>
+
+  <!-- DESAFIO -->
+  <section class="tela" id="t-desafio">
+    <div class="topo" style="margin-bottom:0"><a class="voltar" href="#/sistemas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>Sistemas</a></div>
+    <div class="painel" style="margin-top:14px">
+      <span class="ref" id="qNum">Pergunta 1</span>
+      <p class="pergunta" id="qTexto" aria-live="polite"></p>
+      <div class="opcoes" id="qOpcoes"></div>
+      <div class="expl" id="qExpl" aria-live="polite"></div>
+      <div class="prog"><i id="qProg"></i></div>
+      <button class="btn" id="qProx" style="margin-top:14px;display:none">Próxima ›</button>
+    </div>
+  </section>
+</div>
+
+<!-- LEITOR DE QR -->
+<div class="scan" id="scan" aria-hidden="true" role="dialog" aria-label="Leitor de QR code">
+  <video id="video" playsinline muted></video>
+  <div class="mira"></div>
+  <div class="topo-s"><span style="color:#fff;font-weight:800">Escaneie o QR code</span><button class="fechar" id="scanFechar" aria-label="Fechar o leitor">✕</button></div>
+  <div class="msg" id="scanMsg" aria-live="polite">Abrindo a câmera…</div>
+  <label class="zoom" id="scanZoomBox">Zoom <input type="range" id="scanZoom"></label>
+  <div class="ctrl">
+    <button class="btn amarelo" id="scanFoto">📷 Tirar foto do QR</button>
+    <button class="btn branco" id="scanTrocar" style="display:none">🔄 Trocar câmera</button>
+    <button class="btn branco" id="scanLuz" style="display:none">🔦 Lanterna</button>
+  </div>
+  <input type="file" id="fotoInput" accept="image/*" capture="environment" hidden>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitulo">
+  <div class="caixa"><span class="selo" id="mSelo">Parabéns!</span><h3 id="mTitulo"></h3><div class="estrelas" id="mEstrelas"></div><p id="mTexto"></p><div id="mBotoes"></div></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<canvas class="confete" id="confete"></canvas>
+
+<script>
+/* ===== Conteúdo (gerado a partir de build/conteudo.py) ===== */
+const CONTEUDO = {"sistemas": [{"id": "digestorio", "nome": "Sistema Digestório", "nomeTexto": "Sistema Digestório", "sub": "(Digestivo)", "cor": "#BD6396", "fig": "assets/fig_digestorio.webp", "orbita": "15deg 82deg auto", "tamanho": "Na mesa: tamanho parecido com o de verdade. Aumente ou diminua com dois dedos.", "audios": [{"titulo": "Sistema digestório", "arquivo": "VO_SISTEMA_DIGESTORIO_DIGESTIVO", "texto": "Você adora comer? Pois saiba que o sistema digestório, ou digestivo, tem tudo a ver com a sua fome. É ele que garante que os alimentos que comemos sejam divididos em pedaços menores, possibilitando que seus nutrientes sejam levados pelo sangue a todo o nosso corpo, além de descartar, através das fezes, o que não precisamos. Os órgãos que compõem o sistema digestório são boca, faringe, esôfago, estômago, intestino delgado, intestino grosso e ânus.", "dur": 40.1, "nota": "", "tag": ""}, {"titulo": "Percurso do sistema", "arquivo": "VO_PERCURSO_DO_SISTEMA", "texto": "Quando colocamos um alimento na boca, começa o processo de digestão. Logo de início acontece a produção de saliva, e nossos dentes e nossa língua têm o trabalho de triturar e umedecer o alimento. Depois ele é engolido, passa pela faringe e pelo esôfago, indo parar no estômago, onde se junta ao suco gástrico, uma substância líquida que auxilia na transformação da comida em uma massa menor. Depois do estômago, essa massa vai para o intestino delgado, onde é misturada ao suco pancreático, produzido no pâncreas, à bile, vinda do fígado, e ao suco entérico, do próprio intestino. Nesse momento são aproveitados os nutrientes. No final do processo, ela segue para o intestino grosso, onde água e sais minerais são aproveitados. O restante passa a se chamar fezes, o cocô, e é eliminado para fora do corpo pelo ânus.", "dur": 58.0, "nota": "", "tag": ""}, {"titulo": "Ronco no estômago", "arquivo": "VO_RONCO_ESTOMAGO", "texto": "Sabe aquele barulho estranho que às vezes dá no seu estômago e todo mundo diz que é fome? Esse ronco é normal de acontecer, mas fica ainda mais forte quando estamos com fome, pois o vazio amplifica qualquer ruído que o seu sistema digestório produz.", "dur": 18.7, "nota": "", "tag": ""}, {"titulo": "Apêndice", "arquivo": "VO_APENDICE", "texto": "Muitas pessoas já tiveram que operá-lo. Por muito tempo se achou que o apêndice fosse inútil, mas cientistas acreditam que ele possui um papel importante no nosso sistema imunológico e estimula a produção de bactérias que são boas para o nosso intestino.", "dur": 17.6, "nota": "", "tag": ""}, {"titulo": "Tamanho do intestino", "arquivo": "VO_TAMANHO_INTESTINO", "texto": "Você sabia que, em um adulto, o comprimento do intestino tem pelo menos 7,5 metros? Esticado, ele fica maior que um tubarão. É muito comprido, não é mesmo?", "dur": 14.6, "nota": "", "tag": ""}]}, {"id": "respiratorio", "nome": "Sistema Respiratório", "nomeTexto": "Sistema Respiratório", "sub": "", "cor": "#E9A21F", "fig": "assets/fig_respiratorio.webp", "orbita": "15deg 82deg auto", "tamanho": "Na mesa: tamanho parecido com o de verdade. Aumente ou diminua com dois dedos.", "audios": [{"titulo": "Sistema respiratório", "arquivo": "VO_SISTEMARESPIRATORIO", "texto": "Muitas vezes pegamos um resfriado no inverno, então o nosso nariz tranca e fica difícil de respirar. Isso acontece porque aumenta a quantidade de sangue nos vasos, e então os nossos cornetos, que são pequenos órgãos esponjosos, incham e obstruem a passagem de ar. Essa situação é parte do nosso sistema respiratório, responsável por garantir a captação de oxigênio do meio ambiente e a liberação do gás carbônico. Além disso, ele nos permite sentir o cheiro dos alimentos e das flores, por exemplo. Ele é composto por fossas nasais, faringe, laringe, traqueia, brônquios, bronquíolos, bronquíolos terminais, alvéolos e pulmões.", "dur": 45.6, "nota": "", "tag": ""}, {"titulo": "Percurso do sistema", "arquivo": "VO_PERCURSODOSISTEMA", "texto": "Na inspiração, o ar entra pelas narinas e vai para as cavidades nasais. Lá, o ar é aquecido, umidificado e filtrado, deixando para trás a sujeira. E então essa sujeira, junto com o muco, formará a secreção nasal. O ar então passa pela faringe e continua seu caminho pela laringe. De lá, passa para a traqueia, que se divide em dois tubos bem curtos chamados brônquios. São eles que levarão o ar até os pulmões. Os pulmões se localizam um de cada lado e ficam protegidos pelas costelas. Eles são divididos em partes menores, chamadas lóbulos. O da direita, maior, possui três lóbulos, e o esquerdo, dois. É nos pulmões que o oxigênio é separado e depois levado pelo sangue para as nossas células. E o oxigênio é muito importante para o nosso corpo, pois sem ele não sobrevivemos. A expiração ocorre quando o ar vai para fora do nosso corpo, levando com ele os componentes que o nosso organismo não utilizou. O gás carbônico é um deles.", "dur": 70.1, "nota": "Atualização: o nome certo das partes dos pulmões é lobos: três no pulmão direito e dois no esquerdo.", "tag": "para os maiores"}, {"titulo": "Quantidade de ar", "arquivo": "VO_QUANTIDADEDEAR", "texto": "Será que você sabia que inspira e expira, a cada minuto, 6,5 litros de ar? Isso é o suficiente para encher uma bola de basquete.", "dur": 12.7, "nota": "", "tag": ""}, {"titulo": "Respirar e engolir", "arquivo": "VO_RESPIRAREENGOLIR", "texto": "Você pode até tentar, mas não vai conseguir respirar e engolir ao mesmo tempo. Isso acontece porque, em algum ponto da nossa evolução, os seres humanos perderam a capacidade de fazer isso. O canal por onde respiramos é o mesmo por onde engolimos; inclusive, é por isso que conseguimos respirar pela boca.", "dur": 21.3, "nota": "", "tag": ""}, {"titulo": "Uma narina por vez", "arquivo": "VO_UMANARINAPORVEZ", "texto": "Uma parte das pessoas do mundo tem um processo diferente de respiração, o chamado ciclo nasal. Uma narina é bloqueada durante ele. Assim, a pessoa só pode respirar cerca de 40% da quantidade normal inalada. E não importa se é destro ou canhoto: a narina dominante muda periodicamente.", "dur": 25.0, "nota": "Atualização: o ciclo nasal acontece com quase todo mundo, sem a gente perceber. Enquanto uma narina fica mais fechada, a outra trabalha mais, e o corpo continua recebendo o ar de que precisa.", "tag": ""}]}, {"id": "nervoso", "nome": "Sistema Nervoso", "nomeTexto": "Sistema Nervoso", "sub": "", "cor": "#35A22F", "fig": "assets/fig_nervoso.webp", "orbita": "55deg 75deg auto", "tamanho": "Na mesa: cérebro em tamanho parecido com o de um adulto. Aumente com dois dedos.", "audios": [{"titulo": "Sistema nervoso", "arquivo": "VO_SISTEMA_NERVOSO", "texto": "Às vezes você fica muito feliz, ou então triste. Isso tem a ver com o nosso sistema nervoso. Ele é formado por ligações de nervos e órgãos do corpo que captam e respondem a informações, sentimentos, mensagens e outros estímulos externos. E é no sistema nervoso que também estão os neurônios. Ah, ele também é o responsável por comandar todos os movimentos do nosso corpo, sejam eles voluntários ou involuntários.", "dur": 31.9, "nota": "", "tag": ""}, {"titulo": "Cérebro", "arquivo": "VO_CEREBRO", "texto": "Você gosta de água? Pois saiba que o seu cérebro gosta muito. Tanto é que cerca de 75% da massa total do cérebro é composta por água.", "dur": 13.3, "nota": "", "tag": ""}, {"titulo": "Neurônios", "arquivo": "VO_NEURONIOS", "texto": "Você sabia que os seres humanos possuem cerca de 86 bilhões de neurônios no cérebro? Os neurônios são as células nervosas responsáveis pela transmissão dos impulsos nervosos, ou seja, a transmissão de mensagens do cérebro para o nosso corpo, como, por exemplo, tocar com o dedo a ponta do nosso nariz.", "dur": 21.4, "nota": "", "tag": ""}, {"titulo": "Central e periférico", "arquivo": "VO_CENTRAL_E_PERIFERICO", "texto": "O sistema nervoso é dividido em sistema nervoso central e sistema nervoso periférico. Os principais componentes do sistema nervoso central são a medula espinhal, o cérebro, o bulbo, o cerebelo e a ponte. A medula espinhal tem a função de conduzir impulsos nervosos das regiões do corpo até o cérebro, produzir impulsos e coordenar atividades musculares e reflexos. Já o cérebro é quem cuida da maior parte das funções do organismo, como a recepção de informações visuais e os movimentos do corpo. O cérebro encontra-se protegido pelas meninges. O bulbo está relacionado à respiração e à transmissão de informações sensoriais e motoras, e é muito importante para o nosso organismo. Ele repassa as informações para nossos braços e pernas. No cerebelo é que acontece o controle motor. Já a ponte transmite as informações da medula e do bulbo até o córtex cerebral. O córtex coordena os estímulos vindos de várias partes do sistema nervoso e é responsável pelas ações voluntárias do nosso corpo e também por guardar as informações na nossa memória. O sistema nervoso periférico pode ser dividido em voluntário e autônomo. O sistema nervoso voluntário está relacionado com os movimentos que queremos executar. Já o autônomo está relacionado com os movimentos involuntários, como o batimento cardíaco, a respiração e a digestão.", "dur": 99.6, "nota": "", "tag": "para os maiores"}, {"titulo": "Rugas no cérebro", "arquivo": "VO_RUGAS_NO_CEREBRO", "texto": "O nosso cérebro tem rugas, mas calma, isso não quer dizer que estamos mais velhos. As rugas do cérebro são chamadas de giros e estão sempre aumentando sua área, permitindo que armazenemos mais memória.", "dur": 16.0, "nota": "Atualização: os giros (as dobrinhas) fazem caber mais cérebro dentro da cabeça. Eles não crescem quando aprendemos; o que muda são as ligações entre os neurônios.", "tag": ""}]}, {"id": "cardiovascular", "nome": "Sistema Cardiovascular", "nomeTexto": "Sistema Cardiovascular", "sub": "(Circulatório)", "cor": "#E9603A", "fig": "assets/fig_cardiovascular.webp", "orbita": "-10deg 80deg auto", "tamanho": "Na mesa: coração em tamanho parecido com o de verdade. Ele está batendo!", "audios": [{"titulo": "Sistema cardiovascular", "arquivo": "VO_SISTEMACARDIOVASCULAR", "texto": "Sabe quando você está brincando, cai no chão e rala o joelho? Muitas vezes sai sangue e dói. Isso faz parte do sistema cardiovascular, ou circulatório, que transporta os nutrientes e o oxigênio por todo o corpo e é composto pelo sangue, veias, artérias e coração. O coração é o órgão que bombeia o sangue. Já as artérias são os vasos pelos quais o sangue sai do coração. Legal, né?", "dur": 29.8, "nota": "", "tag": ""}, {"titulo": "Gravidade versus sangue", "arquivo": "VO_GRAVIDADE", "texto": "Por causa da gravidade do planeta Terra, o sangue tende a se acumular principalmente em nossas pernas. Mas, se viajarmos para o espaço, o sangue acaba parando no peito e na cabeça. Sabe por quê? É que no espaço não tem gravidade. E o sangue precisa estar sempre em movimento no nosso corpo para nos manter vivos.", "dur": 22.1, "nota": "Para saber mais: no espaço ainda existe gravidade. Os astronautas flutuam porque a nave e eles estão sempre “caindo” juntos ao redor da Terra.", "tag": ""}, {"titulo": "Litros de sangue", "arquivo": "VO_LITROSDESANGUE", "texto": "O corpo humano possui cerca de 4 litros de sangue, que irrigam uma rede de mais de 90 quilômetros de artérias, veias e capilares.", "dur": 10.9, "nota": "Atualização: um adulto tem cerca de 5 litros de sangue. E, se os vasos sanguíneos fossem colocados em fila, dariam cerca de 100 mil quilômetros, mais de duas voltas ao redor da Terra!", "tag": ""}, {"titulo": "Tamanho", "arquivo": "VO_TAMANHO", "texto": "Você sabia que, quanto maior é o ser, menor é a sua frequência cardíaca? Por exemplo, uma ovelha tem a mesma taxa que nós, seres humanos. Já o coração de uma baleia-azul é muito grande, do tamanho de um automóvel, e só bate cinco vezes por minuto.", "dur": 18.9, "nota": "Para saber mais: o coração da baleia-azul pesa cerca de 180 kg e, durante um mergulho, pode bater só 2 vezes por minuto.", "tag": ""}]}, {"id": "esqueletico", "nome": "Sistema Esquelético", "nomeTexto": "Sistema Esquelético", "sub": "", "cor": "#0F96D8", "fig": "assets/fig_esqueletico.webp", "orbita": "25deg 82deg auto", "tamanho": "Na mesa: esqueleto de 60 cm. Aumente com dois dedos para ver em tamanho real.", "audios": [{"titulo": "Sistema esquelético", "arquivo": "VO_SISTEMAESQUELETICO", "texto": "Sabe quando alguém aparece com um gesso e dizem que ele quebrou o braço? Na verdade, ele quebrou um osso, que faz parte do sistema esquelético. O sistema é constituído de ossos e cartilagens e também de ligamentos e tendões. O nosso esqueleto sustenta e dá forma ao nosso corpo. Além disso, ele também protege os órgãos internos e trabalha junto com os sistemas muscular e articular para nos permitir movimentar o nosso corpo.", "dur": 33.0, "nota": "", "tag": ""}, {"titulo": "Maior osso", "arquivo": "VO_MAIOROSSO", "texto": "O maior osso do esqueleto humano é o fêmur, que é o osso da coxa. Em pessoas de 1,80 m, o fêmur tem aproximadamente 50 cm.", "dur": 14.2, "nota": "", "tag": ""}, {"titulo": "Muito cálcio", "arquivo": "VO_MUITOCALCIO", "texto": "O esqueleto humano e os nossos dentes possuem 99% do cálcio presente no organismo. Agora você já sabe para onde vai o cálcio quando bebe leite.", "dur": 11.9, "nota": "", "tag": ""}, {"titulo": "Ossos do sistema", "arquivo": "VO_OSSOSDOSISTEMA", "texto": "Os ossos são classificados em cinco tipos principais: longos, curtos, planos, irregulares e sesamoides. Os ossos longos apresentam maior comprimento em relação à largura e à espessura; entre seus exemplos estão o fêmur, na perna, e o úmero, no braço. Os ossos curtos têm todas as dimensões — comprimento, largura e espessura — iguais; entre seus exemplos estão o tarso e o carpo, localizados nos pés e nas mãos. Os ossos planos, ou laminares, possuem fina espessura e comprimento e largura equivalentes; como exemplo, podemos citar os ossos do crânio. Os ossos irregulares não apresentam uma forma geométrica definida; como exemplo, podemos citar as vértebras. Já os ossos sesamoides são pequenos e arredondados; seu principal exemplo é a patela. Esses diferentes tipos de ossos estão ligados uns aos outros por meio das articulações, que podem ser móveis, como as do joelho, ou fixas, como as dos ossos do crânio.", "dur": 68.2, "nota": "", "tag": "para os maiores"}, {"titulo": "Nosso peso", "arquivo": "VO_NOSSOPESO", "texto": "Os ossos representam cerca de 15% do peso do nosso corpo, somando 206 ossos em um ser humano adulto.", "dur": 10.3, "nota": "", "tag": ""}]}], "cartas": [{"id": 1, "nome": "Crânio", "sistema": "Sistema Esquelético", "img": "assets/carta_1.webp"}, {"id": 2, "nome": "Pulmões", "sistema": "Sistema Respiratório", "img": "assets/carta_2.webp"}, {"id": 3, "nome": "Cérebro", "sistema": "Sistema Nervoso", "img": "assets/carta_3.webp"}, {"id": 4, "nome": "Coração", "sistema": "Sistema Cardiovascular", "img": "assets/carta_4.webp"}, {"id": 5, "nome": "Fígado", "sistema": "Sistema Digestório", "img": "assets/carta_5.webp"}, {"id": 6, "nome": "Ossos", "sistema": "Sistema Esquelético", "img": "assets/carta_6.webp"}, {"id": 7, "nome": "Estômago", "sistema": "Sistema Digestório", "img": "assets/carta_7.webp"}, {"id": 8, "nome": "Intestinos", "sistema": "Sistema Digestório", "img": "assets/carta_8.webp"}, {"id": 9, "nome": "Neurônio", "sistema": "Sistema Nervoso", "img": "assets/carta_9.webp"}, {"id": 10, "nome": "Ossos da mão", "sistema": "Sistema Esquelético", "img": "assets/carta_10.webp"}, {"id": 11, "nome": "Olho", "sistema": "Órgão dos sentidos", "img": "assets/carta_11.webp"}, {"id": 12, "nome": "Dente", "sistema": "Começa a digestão na boca", "img": "assets/carta_12.webp"}], "verso": "assets/carta_verso.webp", "desafio": [{"pergunta": "Qual é o maior osso do corpo humano?", "opcoes": ["O fêmur, na coxa", "O úmero, no braço", "A patela, no joelho", "Os ossos do crânio"], "explica": "O fêmur é o osso da coxa. Em uma pessoa de 1,80 m, ele mede cerca de 50 cm."}, {"pergunta": "Quantos ossos tem um adulto?", "opcoes": ["206", "50", "120", "350"], "explica": "Um adulto tem 206 ossos, que somam cerca de 15% do peso do corpo."}, {"pergunta": "Quanto ar respiramos a cada minuto, mais ou menos?", "opcoes": ["6,5 litros, o bastante para encher uma bola de basquete", "Meio copo", "1 litro", "100 litros"], "explica": "Inspiramos e expiramos cerca de 6,5 litros de ar por minuto."}, {"pergunta": "Como se chamam as “rugas” do cérebro?", "opcoes": ["Giros", "Neurônios", "Brônquios", "Vértebras"], "explica": "As dobrinhas do cérebro se chamam giros."}, {"pergunta": "Quanto do cérebro é feito de água?", "opcoes": ["Cerca de 75%", "Cerca de 10%", "Metade exata", "Nada, ele é seco"], "explica": "Cerca de 75% da massa do cérebro é água."}, {"pergunta": "Onde fica quase todo o cálcio do corpo?", "opcoes": ["Nos ossos e nos dentes", "No sangue", "Na pele", "No estômago"], "explica": "Ossos e dentes guardam 99% do cálcio do organismo."}, {"pergunta": "Qual órgão bombeia o sangue para todo o corpo?", "opcoes": ["O coração", "O pulmão", "O fígado", "O estômago"], "explica": "O coração bombeia o sangue, que leva oxigênio e nutrientes para o corpo todo."}, {"pergunta": "As artérias são os vasos que…", "opcoes": ["levam o sangue para fora do coração", "levam o ar até os pulmões", "guardam a comida", "ligam um osso ao outro"], "explica": "O sangue sai do coração pelas artérias."}, {"pergunta": "Quantos neurônios temos no cérebro, mais ou menos?", "opcoes": ["Cerca de 86 bilhões", "Cerca de 100", "Cerca de mil", "Cerca de 1 milhão"], "explica": "São cerca de 86 bilhões de neurônios levando mensagens pelo corpo."}, {"pergunta": "Depois de engolida, por onde a comida passa até chegar ao estômago?", "opcoes": ["Pela faringe e pelo esôfago", "Pela traqueia", "Pelos brônquios", "Pelo coração"], "explica": "A comida passa pela faringe e pelo esôfago e chega ao estômago, onde encontra o suco gástrico."}, {"pergunta": "O que o intestino grosso aproveita do alimento?", "opcoes": ["Água e sais minerais", "Oxigênio", "Sangue", "Cálcio dos ossos"], "explica": "No intestino grosso são aproveitados água e sais minerais. O resto vira fezes."}, {"pergunta": "Que osso pequeno e arredondado fica no joelho?", "opcoes": ["A patela", "O fêmur", "O carpo", "A vértebra"], "explica": "A patela é o principal exemplo de osso sesamoide."}, {"pergunta": "Em quantas partes se divide o pulmão direito?", "opcoes": ["Três", "Duas", "Uma", "Cinco"], "explica": "O pulmão direito é maior e tem três partes; o esquerdo tem duas."}, {"pergunta": "Por que não conseguimos respirar e engolir ao mesmo tempo?", "opcoes": ["Porque o ar e a comida passam pelo mesmo canal na garganta", "Porque o nariz fecha", "Porque o coração para", "Porque o estômago está cheio"], "explica": "A faringe é um caminho usado tanto pelo ar quanto pela comida."}]};
+</script>
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+
+/* =====================================================================
+   CONFIGURAÇÃO
+   ===================================================================== */
+// Código impresso no QR do quebra-cabeça (lotes atuais). Lotes futuros: link ...?k=CÓDIGO
+const CODIGOS_VALIDOS = ['wWOwtn76Iq'];
+// Google Analytics 4: deixe vazio para não medir nada. Ex.: 'G-XXXXXXXXXX'
+const GA4_ID = '';
+const CHAVE = 'xalingo_53309_';
+const LIB_LOCAL = { modelViewer: 'assets/lib/model-viewer.min.js', zxing: 'assets/lib/zxing-reader.js', zxingWasm: 'assets/lib/zxing_reader.wasm' };
+const LIB_CDN = { modelViewer: 'https://cdn.jsdelivr.net/npm/@google/model-viewer@4.4.0/dist/model-viewer.min.js', zxing: 'https://cdn.jsdelivr.net/npm/zxing-wasm@3.1.6/dist/iife/reader/index.js' };
+
+/* ---------- arquivos (embutidos no HTML ou na pasta assets/) ---------- */
+const blobCache = {};
+// o arquivo único define window.__EMBUTIDO__ (os dados ficam no fim da página e ainda não existem quando este código roda)
+const embutido = () => !!window.__EMBUTIDO__;
+function asset(path) {
+  if (blobCache[path]) return blobCache[path];
+  const el = document.querySelector('script[data-asset="' + path + '"]');
+  if (!el) return 'assets/' + path;
+  const bin = atob(el.textContent.trim()); const u = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+  return (blobCache[path] = URL.createObjectURL(new Blob([u], { type: el.dataset.mime })));
+}
+function carregarScript(src, modulo) {
+  return new Promise((ok, erro) => { const s = document.createElement('script'); s.src = src; if (modulo) s.type = 'module'; s.onload = ok; s.onerror = () => { s.remove(); erro(new Error('Falha ao carregar ' + src)); }; document.head.appendChild(s); });
+}
+// na versão publicada usa a cópia local; no arquivo único (ou se faltar) usa a CDN
+function carregarLib(nome) {
+  const modulo = nome === 'modelViewer';
+  if (embutido()) return carregarScript(LIB_CDN[nome], modulo).then(() => 'cdn');
+  return carregarScript(LIB_LOCAL[nome], modulo).then(() => 'local', () => carregarScript(LIB_CDN[nome], modulo).then(() => 'cdn'));
+}
+const memoria = {};
+const mem = {
+  get(k) { try { const v = localStorage.getItem(CHAVE + k); return v === null ? (memoria[k] ?? null) : v; } catch (e) { return memoria[k] ?? null; } },
+  set(k, v) { memoria[k] = v; try { localStorage.setItem(CHAVE + k, v); } catch (e) {} }
+};
+const ehIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+/* ---------- medição opcional (GA4) ---------- */
+function evento(nome, params) { try { if (window.gtag) window.gtag('event', nome, params || {}); } catch (e) {} }
+if (GA4_ID && !embutido()) {
+  window.dataLayer = window.dataLayer || []; window.gtag = function () { dataLayer.push(arguments); };
+  gtag('js', new Date()); gtag('config', GA4_ID, { anonymize_ip: true });
+  carregarScript('https://www.googletagmanager.com/gtag/js?id=' + GA4_ID).catch(() => {});
+  $('#ajudaPrivacidade').insertAdjacentHTML('beforeend', ' Contamos os acessos de forma anônima, com o Google Analytics, para melhorar a página.');
+}
+
+/* ---------- navegador dentro de app (Instagram, WhatsApp…) ---------- */
+(() => {
+  const ua = navigator.userAgent; const m = ua.match(/Instagram|FBAN|FBAV|FB_IAB|WhatsApp|TikTok|musical_ly|BytedanceWebview|Line\/|Snapchat|Pinterest/i);
+  if (!m) return;
+  const nome = /FB/i.test(m[0]) ? 'Facebook' : /musical|Bytedance/i.test(m[0]) ? 'TikTok' : m[0].replace('/', '');
+  const a = $('#avisoApp'); a.innerHTML = `<b>Você abriu pelo ${nome}.</b> Para usar a câmera e a realidade aumentada, abra no ${ehIOS ? 'Safari' : 'Chrome'}: toque no menu <b>⋯</b> e escolha <b>Abrir no navegador</b>.`; a.classList.add('on');
+})();
+
+/* ---------- som ---------- */
+try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
+let somOn = mem.get('som') !== '0';
+let musicaOn = mem.get('musica') === '1';
+const SFX = ['pop', 'tick', 'positive', 'error', 'success'], sfxEl = {};
+function sfxElemento(n) { return (sfxEl[n] ||= Object.assign(new Audio(asset('audio/sfx_' + n + '.mp3')), { preload: 'auto' })); }
+// no iPhone, sons tocados fora de um toque (ex.: depois de virar a carta) precisam ser "destravados" no 1º toque
+let destravado = false;
+function destravarSons() {
+  if (destravado) return; destravado = true;
+  SFX.forEach(n => { const a = sfxElemento(n); a.muted = true; const p = a.play(); if (p) p.then(() => { a.pause(); a.currentTime = 0; a.muted = false; }).catch(() => { a.muted = false; }); else a.muted = false; });
+}
+document.addEventListener('pointerdown', destravarSons, { once: true, capture: true });
+document.addEventListener('keydown', destravarSons, { once: true, capture: true });
+function sfx(nome, vol = 0.6) {
+  if (!somOn) return;
+  try { const a = sfxElemento(nome); a.muted = false; a.volume = vol; a.currentTime = 0; a.play().catch(() => {}); } catch (e) {}
+}
+let musica = null;
+function atualizarMusica() {
+  $('#btnMusica').setAttribute('aria-pressed', musicaOn); $('#btnSom').setAttribute('aria-pressed', somOn);
+  $('#btnSom').textContent = somOn ? '🔊' : '🔇';
+  const narrando = narracao && !narracao.paused;
+  if (musicaOn && !narrando && !document.hidden) {
+    if (!musica) { musica = new Audio(asset('audio/musica.mp3')); musica.loop = true; musica.volume = 0.25; }
+    musica.play().catch(() => {});
+  } else if (musica) musica.pause(); // no iPhone o volume não pode ser reduzido, então a música pausa durante a narração
+}
+$('#btnSom').onclick = () => { somOn = !somOn; mem.set('som', somOn ? '1' : '0'); if (!somOn) pararNarracao(); atualizarMusica(); sfx('pop'); };
+$('#btnMusica').onclick = () => { musicaOn = !musicaOn; mem.set('musica', musicaOn ? '1' : '0'); atualizarMusica(); };
+document.addEventListener('click', e => { if (e.target.closest('.btn,.sis,.escolha button')) sfx('pop', 0.35); }, true);
+
+/* ---------- liberação ---------- */
+const liberado = () => mem.get('liberado') === '1';
+function codigoValido(txt) {
+  if (!txt) return false;
+  const t = String(txt).trim();
+  if (CODIGOS_VALIDOS.includes(t)) return true;
+  try {
+    const u = new URL(t);
+    const k = u.searchParams.get('k') || u.pathname.split('/').filter(Boolean).pop();
+    return CODIGOS_VALIDOS.includes(k);
+  } catch (e) { return false; }
+}
+function comemorarLiberacao() {
+  sfx('success', 0.7); confete();
+  abrirModal({ selo: 'Liberado!', titulo: 'Quebra-cabeça reconhecido', texto: 'Agora você pode explorar os 5 sistemas do corpo humano, ouvir as curiosidades e ver tudo em 3D.', botoes: [['Explorar os sistemas', '#/sistemas', ''], ['Fazer o desafio', '#/desafio', 'branco']] });
+}
+function liberar(origem) { mem.set('liberado', '1'); atualizarInicio(); evento('qr_lido', { origem }); comemorarLiberacao(); garantirModelViewer().catch(() => {}); }
+// QR com link (lotes futuros): ...?k=CÓDIGO libera ao abrir a página
+let liberarPeloLink = false;
+(() => {
+  const k = new URLSearchParams(location.search).get('k');
+  if (!k || !CODIGOS_VALIDOS.includes(k)) return;
+  const ja = liberado(); mem.set('liberado', '1'); evento('qr_lido', { origem: 'link' });
+  const u = new URL(location.href); u.searchParams.delete('k');
+  history.replaceState(null, '', u.pathname + u.search + (!location.hash || location.hash === '#/' ? '#/sistemas' : location.hash));
+  liberarPeloLink = !ja;
+})();
+function atualizarInicio() {
+  const l = liberado(); $('#boxLiberado').classList.toggle('on', l);
+  $('#legTenho').textContent = l ? 'Abrir os sistemas' : 'Escanear o QR code';
+  $('#dicaQR').style.display = l ? 'none' : '';
+}
+
+/* ---------- navegação ---------- */
+const SIS = CONTEUDO.sistemas;
+function rota() {
+  const h = location.hash || '#/';
+  const p = h.slice(2).split('/');
+  pararNarracao(); pararScanner(false); fecharModal();
+  $$('.tela').forEach(t => t.classList.remove('ativa'));
+  let tela = 'inicio';
+  if ((p[0] === 'sistemas' || p[0] === 'sistema' || p[0] === 'desafio') && !liberado()) {
+    history.replaceState(null, '', location.pathname + location.search + '#/');
+    setTimeout(() => toast('Escaneie o QR code do quebra-cabeça para liberar 😉'), 50);
+    p.length = 0; p.push('');
+  }
+  if (p[0] === 'sistemas') tela = 'sistemas';
+  else if (p[0] === 'sistema') { tela = 'sistema'; abrirSistema(p[1]); }
+  else if (p[0] === 'memoria') { tela = 'memoria'; mostrarNiveis(); }
+  else if (p[0] === 'desafio') { tela = 'desafio'; iniciarDesafio(); }
+  else atualizarInicio();
+  $('#t-' + tela).classList.add('ativa');
+  window.scrollTo({ top: 0 });
+  const t = { inicio: 'Conhecendo o Corpo Humano', sistemas: 'Os sistemas do corpo', memoria: 'Jogo da memória', desafio: 'Desafio' }[tela];
+  document.title = (tela === 'sistema' && atual ? atual.nomeTexto : t) + ' – Xalingo';
+}
+window.addEventListener('hashchange', rota);
+document.addEventListener('click', e => { const b = e.target.closest('[data-ir]'); if (b) { fecharModal(); location.hash = b.dataset.ir; } });
+$('#btnTenho').onclick = () => liberado() ? (location.hash = '#/sistemas') : abrirScanner();
+$('#btnNaoTenho').onclick = () => location.hash = '#/memoria';
+
+/* ---------- lista de sistemas ---------- */
+$('#gradeSis').innerHTML = SIS.map(s => `<a class="sis" href="#/sistema/${s.id}" style="--c:${s.cor}"><img src="${s.fig}" alt="" loading="lazy" width="230" height="512"><b>${s.nome}</b>${s.sub ? `<small>${s.sub}</small>` : ''}</a>`).join('');
+
+/* ---------- tela do sistema ---------- */
+let mvPronto = null, atual = null;
+function garantirModelViewer() {
+  if (!mvPronto) mvPronto = carregarLib('modelViewer').then(() => customElements.whenDefined('model-viewer')).then(() => {
+    // o decodificador meshopt já vem dentro do model-viewer; só precisa ser ativado
+    const MV = customElements.get('model-viewer');
+    if (!MV.meshoptDecoderLocation) MV.meshoptDecoderLocation = URL.createObjectURL(new Blob(['/* meshopt */'], { type: 'text/javascript' }));
+  });
+  mvPronto.catch(() => { mvPronto = null; });
+  return mvPronto;
+}
+const svgPlay = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>';
+const svgPausa = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4.5" height="14" rx="1.2"/><rect x="13.5" y="5" width="4.5" height="14" rx="1.2"/></svg>';
+const svgRA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 4.5v9L12 20l-8-4.5v-9z"/><path d="M12 11l8-4.5M12 11v9M12 11L4 6.5"/></svg>';
+const fmt = s => { s = Math.round(s); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+
+function abrirSistema(id) {
+  const i = Math.max(0, SIS.findIndex(s => s.id === id)); const s = SIS[i]; atual = s;
+  const tela = $('#t-sistema'); tela.style.setProperty('--c', s.cor);
+  $('#sisNome').innerHTML = s.nome; $('#sisSub').innerHTML = s.sub || '';
+  $('#sisFig').src = s.fig; $('#sisFig').alt = 'Desenho do ' + s.nomeTexto; $('#sisFigMini').src = s.fig;
+  $('#seloTam').textContent = s.tamanho; $('#seloTam').hidden = true;
+  definirAba('3d');
+  const total = s.audios.reduce((a, b) => a + b.dur, 0);
+  $('#ouvirTudo').innerHTML = `${svgPlay.replace('<svg', '<svg width="18" height="18"')} Ouvir tudo · ${Math.round(total / 60)} min`; $('#ouvirTudo').setAttribute('aria-pressed', 'false');
+  $('#listaAudios').innerHTML = s.audios.map((a, j) => `
+    <button class="faixa${j === 0 ? ' principal' : ''}" data-j="${j}" aria-controls="leg${j}"><span class="play">${svgPlay}</span><span style="flex:1"><b>${a.titulo}</b><small>${j === 0 ? 'Ouça a explicação' : 'Curiosidade'} · ${fmt(a.dur)}${a.tag ? ' · ' + a.tag : ''}</small><span class="barra"><i></i></span></span></button>
+    <div class="legenda" id="leg${j}" aria-live="polite"><div class="ttl">${a.titulo}</div>${a.texto}${a.nota ? `<div class="nota">📌 ${a.nota}</div>` : ''}</div>`).join('');
+  $$('#listaAudios .faixa').forEach(b => b.onclick = () => { sequencia = false; $('#ouvirTudo').setAttribute('aria-pressed', 'false'); tocar(s, +b.dataset.j); });
+  $('#sisAnt').onclick = () => location.hash = '#/sistema/' + SIS[(i + SIS.length - 1) % SIS.length].id;
+  $('#sisProx').onclick = () => location.hash = '#/sistema/' + SIS[(i + 1) % SIS.length].id;
+  evento('sistema_aberto', { sistema: s.id });
+  // 3D
+  const host = $('#mvHost'); host.innerHTML = ''; const car = $('#carregando3d'); car.style.display = 'grid'; car.textContent = 'Carregando o modelo 3D…';
+  garantirModelViewer().then(() => {
+    if (atual !== s) return;
+    const mv = document.createElement('model-viewer');
+    const at = { src: asset('modelos/' + s.id + '.glb'), alt: 'Modelo 3D do ' + s.nomeTexto, 'camera-controls': '', 'touch-action': 'pan-y',
+      'auto-rotate': '', 'auto-rotate-delay': '1500', 'rotation-per-second': '18deg', 'shadow-intensity': '0.9', 'shadow-softness': '0.9', exposure: '1.05',
+      'environment-image': 'neutral', 'interaction-prompt': 'none', autoplay: '', ar: '', 'ar-scale': 'auto', 'ar-placement': 'floor',
+      'ar-modes': embutido() ? 'webxr quick-look' : 'webxr scene-viewer quick-look', 'camera-orbit': s.orbita || '20deg 80deg auto' };
+    if (!embutido()) at['ios-src'] = asset('modelos/' + s.id + '.usdz');
+    for (const [k, v] of Object.entries(at)) mv.setAttribute(k, v);
+    mv.innerHTML = `<button slot="ar-button" class="btn-ra">${svgRA}Ver na minha mesa</button>`;
+    mv.querySelector('.btn-ra').addEventListener('click', () => { pararNarracao(); evento('ra_aberta', { sistema: s.id }); });
+    mv.addEventListener('load', () => { car.style.display = 'none'; $('#seloTam').hidden = !mv.canActivateAR; });
+    mv.addEventListener('error', () => { car.textContent = 'Não foi possível abrir o 3D neste aparelho. Veja a aba Desenho.'; definirAba('desenho'); });
+    mv.addEventListener('ar-status', ev => { if (ev.detail.status === 'failed') toast('A realidade aumentada não abriu neste celular.'); });
+    host.appendChild(mv);
+  }).catch(() => { car.textContent = 'Sem internet para carregar o 3D. Veja a aba Desenho.'; definirAba('desenho'); });
+}
+function definirAba(a) {
+  $('#palco').classList.toggle('ver-desenho', a === 'desenho');
+  $$('.abas button').forEach(b => b.setAttribute('aria-selected', b.dataset.aba === a));
+  $('#seloTam').style.visibility = a === '3d' ? '' : 'hidden';
+}
+$$('.abas button').forEach(b => b.onclick = () => definirAba(b.dataset.aba));
+
+/* narração */
+let narracao = null, faixaAtiva = -1, rafBarra = 0, sequencia = false;
+$('#ouvirTudo').onclick = () => {
+  if (sequencia) { pararNarracao(true); sequencia = false; $('#ouvirTudo').setAttribute('aria-pressed', 'false'); return; }
+  pararNarracao(); sequencia = true; $('#ouvirTudo').setAttribute('aria-pressed', 'true'); tocar(atual, 0);
+};
+function tocar(s, j) {
+  if (faixaAtiva === j && narracao && !narracao.paused) { pararNarracao(true); return; }
+  pararNarracao(true); $$('.legenda').forEach(l => l.classList.remove('on'));
+  const a = s.audios[j]; faixaAtiva = j;
+  narracao = new Audio(asset('audio/' + a.arquivo + '.mp3'));
+  const btn = $(`#listaAudios .faixa[data-j="${j}"]`), leg = $('#leg' + j);
+  btn.classList.add('tocando'); btn.querySelector('.play').innerHTML = svgPausa; btn.setAttribute('aria-label', 'Pausar ' + a.titulo); leg.classList.add('on');
+  btn.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (!somOn) toast('Os sons estão desligados – toque em 🔇 para ligar');
+  narracao.muted = !somOn;
+  narracao.play().catch(() => toast('Toque de novo para ouvir'));
+  atualizarMusica(); evento('narracao', { sistema: s.id, faixa: a.arquivo });
+  const barra = btn.querySelector('.barra i');
+  const passo = () => { if (!narracao) return; barra.style.width = (100 * narracao.currentTime / (narracao.duration || a.dur)) + '%'; rafBarra = requestAnimationFrame(passo); };
+  rafBarra = requestAnimationFrame(passo);
+  narracao.onended = () => {
+    pararNarracao(true);
+    if (sequencia && atual === s && j + 1 < s.audios.length) setTimeout(() => { if (sequencia) tocar(s, j + 1); }, 700);
+    else if (sequencia) { sequencia = false; $('#ouvirTudo').setAttribute('aria-pressed', 'false'); }
+  };
+}
+function pararNarracao(manterLegenda) {
+  cancelAnimationFrame(rafBarra);
+  if (narracao) { narracao.onended = null; narracao.pause(); narracao.removeAttribute('src'); narracao.load(); narracao = null; }
+  $$('#listaAudios .faixa').forEach(b => { b.classList.remove('tocando'); b.querySelector('.play').innerHTML = svgPlay; b.removeAttribute('aria-label'); });
+  if (!manterLegenda) { $$('.legenda').forEach(l => l.classList.remove('on')); sequencia = false; $('#ouvirTudo').setAttribute('aria-pressed', 'false'); }
+  faixaAtiva = -1; atualizarMusica();
+}
+
+/* ---------- jogo da memória ---------- */
+const CARTAS = CONTEUDO.cartas;
+let mj = null;
+function mostrarNiveis() {
+  $('#memEscolha').style.display = ''; $('#memJogo').style.display = 'none';
+  $$('[data-rec]').forEach(el => { const r = mem.get('recorde_' + el.dataset.rec); el.textContent = r ? 'Seu recorde: ' + r + ' pontos' : ''; });
+}
+$$('[data-pares]').forEach(b => b.onclick = () => novoJogo(+b.dataset.pares));
+$('#memRecomecar').onclick = () => novoJogo(mj.pares);
+$('#memNivel').onclick = mostrarNiveis;
+function embaralhar(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function novoJogo(pares) {
+  $('#memEscolha').style.display = 'none'; $('#memJogo').style.display = '';
+  const escolhidas = embaralhar([...CARTAS]).slice(0, pares);
+  const deck = embaralhar([...escolhidas, ...escolhidas].map((c, i) => ({ ...c, uid: i })));
+  mj = { pares, deck, abertas: [], achados: 0, cliques: 0, travado: false };
+  const tab = $('#tabuleiro'); tab.style.setProperty('--cols', pares === 6 ? 3 : (pares === 12 && window.innerWidth > 600 ? 6 : 4));
+  tab.innerHTML = deck.map((c, i) => `<button class="carta" data-i="${i}" aria-label="Carta ${i + 1}, virada"><span class="face verso"><img src="${CONTEUDO.verso}" alt=""></span><span class="face frente"><img src="${c.img}" alt=""></span></button>`).join('');
+  $$('#tabuleiro .carta').forEach(b => b.onclick = () => virar(b));
+  placar(); evento('memoria_inicio', { pares });
+}
+function placar() { $('#memCliques').textContent = 'Cliques: ' + mj.cliques; $('#memPares').textContent = 'Pares: ' + mj.achados + '/' + mj.pares; }
+function virar(b) {
+  if (mj.travado || b.classList.contains('virada') || b.classList.contains('par')) return;
+  const c = mj.deck[b.dataset.i];
+  b.classList.add('virada'); b.setAttribute('aria-label', c.nome); sfx('tick', 0.5); mj.cliques++; mj.abertas.push(b); placar();
+  if (mj.abertas.length < 2) return;
+  const [x, y] = mj.abertas; const cx = mj.deck[x.dataset.i], cy = mj.deck[y.dataset.i];
+  if (cx.id === cy.id) {
+    mj.abertas = []; mj.achados++;
+    setTimeout(() => { [x, y].forEach(el => { el.classList.add('par'); el.classList.remove('virada'); el.setAttribute('aria-label', 'Par encontrado: ' + cx.nome); }); sfx('positive', 0.55); toast(`${cx.nome}<small>${cx.sistema}</small>`); placar(); if (mj.achados === mj.pares) fimMemoria(); }, 380);
+  } else {
+    mj.travado = true;
+    setTimeout(() => { sfx('error', 0.4); [x, y].forEach((el, k) => { el.classList.remove('virada'); el.setAttribute('aria-label', 'Carta ' + (+el.dataset.i + 1) + ', virada'); }); mj.abertas = []; mj.travado = false; }, 850);
+  }
+}
+function fimMemoria() {
+  const minimo = mj.pares * 2; const r = mj.cliques / minimo;
+  const est = r <= 1.6 ? 3 : r <= 2.3 ? 2 : 1;
+  const pontos = Math.max(50, Math.round(1000 * minimo / mj.cliques));
+  const rec = +(mem.get('recorde_' + mj.pares) || 0); const novo = pontos > rec; if (novo) mem.set('recorde_' + mj.pares, String(pontos));
+  evento('memoria_fim', { pares: mj.pares, cliques: mj.cliques, pontos });
+  setTimeout(() => {
+    sfx('success', 0.7); confete();
+    abrirModal({ selo: novo && rec ? 'Novo recorde!' : 'Parabéns!', titulo: `Você fez ${pontos} pontos`, estrelas: est, texto: `Encontrou os ${mj.pares} pares com ${mj.cliques} cliques.` + (liberado() ? '' : ' Tem o quebra-cabeça? Escaneie o QR code para conhecer os sistemas do corpo!'), botoes: [['Jogar de novo', '', ''], ['Trocar nível', '', 'branco']] });
+    const bs = $$('#mBotoes .btn'); bs[0].onclick = () => { fecharModal(); novoJogo(mj.pares); }; bs[1].onclick = () => { fecharModal(); mostrarNiveis(); };
+  }, 700);
+}
+
+/* ---------- desafio ---------- */
+let dq = null;
+function iniciarDesafio() {
+  const qs = embaralhar([...CONTEUDO.desafio]).slice(0, 8).map(q => ({ ...q, respondida: false, ops: embaralhar(q.opcoes.map((t, i) => ({ t, certa: i === 0 }))) }));
+  dq = { qs, i: 0, acertos: 0 }; mostrarPergunta();
+}
+function mostrarPergunta() {
+  const q = dq.qs[dq.i];
+  $('#qNum').textContent = `Pergunta ${dq.i + 1} de ${dq.qs.length}`; $('#qTexto').textContent = q.pergunta;
+  $('#qProg').style.width = (100 * dq.i / dq.qs.length) + '%';
+  $('#qExpl').classList.remove('on'); $('#qProx').style.display = 'none';
+  $('#qOpcoes').innerHTML = q.ops.map((o, k) => `<button data-k="${k}">${o.t}</button>`).join('');
+  $$('#qOpcoes button').forEach(b => b.onclick = () => responder(+b.dataset.k));
+}
+function responder(k) {
+  const q = dq.qs[dq.i]; if (q.respondida) return; q.respondida = true;
+  const bs = $$('#qOpcoes button');
+  q.ops.forEach((o, i) => { if (o.certa) bs[i].classList.add('certa'); });
+  if (q.ops[k].certa) { dq.acertos++; sfx('positive', 0.55); } else { bs[k].classList.add('errada'); sfx('error', 0.45); }
+  $('#qExpl').innerHTML = (q.ops[k].certa ? '✅ <b>Isso mesmo!</b> ' : '💡 <b>Quase!</b> ') + q.explica; $('#qExpl').classList.add('on');
+  $('#qProx').textContent = dq.i === dq.qs.length - 1 ? 'Ver resultado' : 'Próxima ›'; $('#qProx').style.display = '';
+  $('#qProx').focus({ preventScroll: true });
+}
+$('#qProx').onclick = () => {
+  if (dq.i < dq.qs.length - 1) { dq.i++; mostrarPergunta(); return; }
+  $('#qProg').style.width = '100%';
+  const n = dq.qs.length, a = dq.acertos; const est = a >= n - 1 ? 3 : a >= n / 2 ? 2 : 1;
+  evento('desafio_fim', { acertos: a, total: n });
+  sfx('success', 0.7); if (est >= 2) confete();
+  abrirModal({ selo: est === 3 ? 'Incrível!' : 'Muito bem!', titulo: `Você acertou ${a} de ${n}`, estrelas: est, texto: est === 3 ? 'Você é um(a) especialista no corpo humano!' : 'Ouça as curiosidades dos sistemas e tente de novo.', botoes: [['Jogar de novo', '', ''], ['Ver os sistemas', '#/sistemas', 'branco']] });
+  $$('#mBotoes .btn')[0].onclick = () => { fecharModal(); iniciarDesafio(); };
+};
+
+/* ---------- leitor de QR ---------- */
+let stream = null, loopId = 0, decodificar = null, lendo = false, ultimoInvalido = 0, cameras = [], camIdx = -1, scanAberto = false;
+const video = $('#video'), cnv = document.createElement('canvas'), ctx = cnv.getContext('2d', { willReadFrequently: true });
+async function obterDecodificador() {
+  if (decodificar) return decodificar;
+  if ('BarcodeDetector' in window) {
+    try {
+      const f = await BarcodeDetector.getSupportedFormats();
+      if (f.includes('qr_code')) { const det = new BarcodeDetector({ formats: ['qr_code'] }); return (decodificar = async src => (await det.detect(src)).map(b => b.rawValue)); }
+    } catch (e) {}
+  }
+  const origem = await carregarLib('zxing');
+  if (origem === 'local') ZXingWASM.prepareZXingModule({ overrides: { locateFile: (p, pre) => p.endsWith('.wasm') ? new URL(LIB_LOCAL.zxingWasm, location.href).href : pre + p } });
+  return (decodificar = async src => {
+    const img = src instanceof ImageData ? src : ctx.getImageData(0, 0, src.width, src.height);
+    const r = await ZXingWASM.readBarcodes(img, { formats: ['QRCode'], tryHarder: true, maxNumberOfSymbols: 1 });
+    return r.filter(x => x.isValid).map(x => x.text);
+  });
+}
+function msgScan(t, s) { $('#scanMsg').innerHTML = t + (s ? `<small>${s}</small>` : ''); }
+async function abrirScanner() {
+  scanAberto = true;
+  $('#scan').classList.add('on'); $('#scan').setAttribute('aria-hidden', 'false');
+  history.pushState({ scan: 1 }, '', location.href);
+  evento('leitor_aberto');
+  if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) { msgScan('A câmera não está disponível aqui.', 'Abra esta página pelo link https ou use “Tirar foto do QR”.'); return; }
+  iniciarCamera();
+}
+async function iniciarCamera(deviceId) {
+  pararCamera();
+  msgScan('Abrindo a câmera…', 'Se o celular perguntar, toque em <b>Permitir</b>.');
+  try {
+    const dec = obterDecodificador();
+    const video_ = deviceId ? { deviceId: { exact: deviceId } } : { facingMode: { ideal: 'environment' } };
+    stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: { ...video_, width: { ideal: 1920 }, height: { ideal: 1080 } } });
+    if (!scanAberto) { pararCamera(); return; }
+    video.srcObject = stream; await video.play();
+    const track = stream.getVideoTracks()[0]; const caps = track.getCapabilities ? track.getCapabilities() : {};
+    const adv = [];
+    if (caps.focusMode && caps.focusMode.includes('continuous')) adv.push({ focusMode: 'continuous' });
+    if (caps.zoom) {
+      const z = $('#scanZoom'); z.min = caps.zoom.min; z.max = caps.zoom.max; z.step = caps.zoom.step || 0.1;
+      const ini = Math.min(caps.zoom.max, Math.max(caps.zoom.min, 1.6)); z.value = ini; adv.push({ zoom: ini });
+      z.oninput = () => track.applyConstraints({ advanced: [{ zoom: +z.value }] }).catch(() => {});
+      $('#scanZoomBox').classList.add('on');
+    } else $('#scanZoomBox').classList.remove('on');
+    if (adv.length) track.applyConstraints({ advanced: adv }).catch(() => {});
+    if (caps.torch) { let on = false; $('#scanLuz').style.display = ''; $('#scanLuz').onclick = () => { on = !on; track.applyConstraints({ advanced: [{ torch: on }] }).catch(() => {}); }; } else $('#scanLuz').style.display = 'none';
+    try {
+      cameras = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === 'videoinput');
+      const atualId = track.getSettings ? track.getSettings().deviceId : '';
+      camIdx = Math.max(0, cameras.findIndex(c => c.deviceId === atualId));
+      $('#scanTrocar').style.display = cameras.length > 1 ? '' : 'none';
+    } catch (e) {}
+    msgScan('Preparando o leitor…');
+    await dec; if (!scanAberto) return;
+    msgScan('Aponte para o QR code', 'Ele fica na parte laranja, perto do Sistema Cardiovascular.');
+    lendo = true; let n = 0;
+    const ciclo = async () => {
+      if (!lendo) return;
+      if (video.readyState >= 2 && video.videoWidth) {
+        const vw = video.videoWidth, vh = video.videoHeight;
+        const cheio = n++ % 3 === 2; const lado = Math.min(vw, vh) * (cheio ? 1 : 0.72);
+        const sx = (vw - lado) / 2, sy = Math.max(0, (vh - lado) / 2 - (cheio ? 0 : vh * 0.03));
+        const alvo = Math.min(1100, lado);
+        cnv.width = alvo; cnv.height = alvo; ctx.drawImage(video, sx, sy, lado, lado, 0, 0, alvo, alvo);
+        try { const r = await decodificar(cnv); if (r.length) { tratarLeitura(r[0], 'camera'); if (!lendo) return; } } catch (e) {}
+      }
+      loopId = setTimeout(ciclo, 110);
+    };
+    ciclo();
+  } catch (e) {
+    const nome = e && e.name;
+    if (nome === 'NotAllowedError') msgScan('A câmera foi bloqueada.', ehIOS ? 'No iPhone: Ajustes › Safari › Câmera › Permitir. Depois recarregue a página. Ou use “Tirar foto do QR”.' : 'Toque no cadeado ao lado do endereço › Permissões › Câmera › Permitir. Ou use “Tirar foto do QR”.');
+    else if (nome === 'NotFoundError' || nome === 'OverconstrainedError') msgScan('Não encontramos uma câmera.', 'Use “Tirar foto do QR”.');
+    else if (nome === 'NotReadableError') msgScan('A câmera está sendo usada por outro app.', 'Feche o outro app e tente de novo.');
+    else msgScan('Não foi possível abrir a câmera.', 'Use “Tirar foto do QR” ou verifique a internet.');
+  }
+}
+$('#scanTrocar').onclick = () => { if (cameras.length < 2) return; camIdx = (camIdx + 1) % cameras.length; iniciarCamera(cameras[camIdx].deviceId); };
+function tratarLeitura(txt, origem) {
+  if (codigoValido(txt)) { pararScanner(true); if (navigator.vibrate) navigator.vibrate(80); liberar(origem); return; }
+  if (Date.now() - ultimoInvalido > 2500) { ultimoInvalido = Date.now(); sfx('error', 0.4); msgScan('Este QR code não é deste quebra-cabeça', 'Procure o QR na parte laranja do Conhecendo o Corpo Humano.'); evento('qr_invalido'); }
+}
+function pararCamera() {
+  lendo = false; clearTimeout(loopId);
+  if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+  video.srcObject = null;
+}
+function pararScanner(voltarHist) {
+  scanAberto = false; pararCamera();
+  if ($('#scan').classList.contains('on')) {
+    $('#scan').classList.remove('on'); $('#scan').setAttribute('aria-hidden', 'true'); $('#scanZoomBox').classList.remove('on'); $('#scanLuz').style.display = 'none'; $('#scanTrocar').style.display = 'none';
+    if (voltarHist && history.state && history.state.scan) history.back();
+  }
+}
+$('#scanFechar').onclick = () => pararScanner(true);
+window.addEventListener('popstate', () => { if (scanAberto) pararScanner(false); });
+$('#scanFoto').onclick = () => $('#fotoInput').click();
+async function abrirImagem(f) {
+  try { return await createImageBitmap(f); } catch (e) {
+    const url = URL.createObjectURL(f); const img = new Image(); img.src = url; await img.decode(); URL.revokeObjectURL(url);
+    return img; // fotos que o createImageBitmap não abre (ex.: HEIC em iPhones antigos)
+  }
+}
+$('#fotoInput').onchange = async e => {
+  const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+  msgScan('Lendo a foto…');
+  try {
+    const dec = await obterDecodificador();
+    const bmp = await abrirImagem(f); const W = bmp.naturalWidth || bmp.width, H = bmp.naturalHeight || bmp.height;
+    for (const [frac, max] of [[1, 1600], [0.6, 1400], [0.4, 1000], [1, 2600]]) {
+      const lado = Math.min(W, H) * frac; const w = frac === 1 ? W : lado, h = frac === 1 ? H : lado;
+      const sx = frac === 1 ? 0 : (W - lado) / 2, sy = frac === 1 ? 0 : (H - lado) / 2; const esc = Math.min(1, max / Math.max(w, h));
+      cnv.width = Math.round(w * esc); cnv.height = Math.round(h * esc);
+      ctx.drawImage(bmp, sx, sy, w, h, 0, 0, cnv.width, cnv.height);
+      const r = await dec(cnv); if (r.length) { tratarLeitura(r[0], 'foto'); return; }
+    }
+    msgScan('Não consegui ler o QR na foto.', 'Tire a foto mais de perto, com boa luz e sem reflexo.');
+  } catch (err) { msgScan('Não consegui ler a foto.', 'Tente novamente.'); }
+};
+
+/* ---------- quando a página fica em segundo plano ---------- */
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { if (narracao) pararNarracao(true); if (scanAberto) pararCamera(); if (musica) musica.pause(); }
+  else { if (scanAberto && !stream) iniciarCamera(cameras[camIdx] && camIdx >= 0 ? cameras[camIdx].deviceId : undefined); atualizarMusica(); }
+});
+
+/* ---------- modal, toast, confete ---------- */
+function abrirModal({ selo, titulo, texto, estrelas, botoes }) {
+  $('#mSelo').textContent = selo; $('#mTitulo').textContent = titulo; $('#mTexto').textContent = texto;
+  $('#mEstrelas').textContent = estrelas ? '⭐'.repeat(estrelas) + '☆'.repeat(3 - estrelas) : ''; $('#mEstrelas').style.display = estrelas ? '' : 'none';
+  $('#mBotoes').innerHTML = botoes.map(([t, ir, cls]) => `<button class="btn ${cls}" ${ir ? `data-ir="${ir}"` : ''}>${t}</button>`).join('');
+  $('#modal').classList.add('on'); setTimeout(() => { const b = $('#mBotoes .btn'); if (b) b.focus({ preventScroll: true }); }, 50);
+}
+function fecharModal() { $('#modal').classList.remove('on'); }
+$('#modal').onclick = e => { if (e.target.id === 'modal') fecharModal(); };
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { if ($('#modal').classList.contains('on')) fecharModal(); else if (scanAberto) pararScanner(true); } });
+let toastT = 0;
+function toast(html) { const t = $('#toast'); t.innerHTML = html; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2400); }
+function confete() {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c = $('#confete'), x = c.getContext('2d'); c.width = innerWidth; c.height = innerHeight;
+  const cores = ['#164194', '#E3B500', '#E10000', '#60D437', '#00A1FF', '#FF9200'];
+  const ps = Array.from({ length: 140 }, () => ({ x: innerWidth / 2, y: innerHeight * 0.35, vx: (Math.random() - 0.5) * 14, vy: -Math.random() * 13 - 3, r: Math.random() * 6 + 4, c: cores[Math.random() * 6 | 0], a: Math.random() * 6, va: (Math.random() - .5) * .4 }));
+  let f = 0; (function anim() { x.clearRect(0, 0, c.width, c.height); ps.forEach(p => { p.vy += 0.35; p.x += p.vx; p.y += p.vy; p.a += p.va; x.save(); x.translate(p.x, p.y); x.rotate(p.a); x.fillStyle = p.c; x.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2); x.restore(); }); if (++f < 130) requestAnimationFrame(anim); else x.clearRect(0, 0, c.width, c.height); })();
+}
+
+/* ---------- app instalável e uso sem internet (só na versão publicada) ---------- */
+if ('serviceWorker' in navigator && !embutido() && window.isSecureContext && location.protocol !== 'file:') {
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+}
+let pedidoInstalar = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault(); pedidoInstalar = e;
+  $('#ajudaInstalar').insertAdjacentHTML('beforeend', ' <button class="btn peq" id="btnInstalar" style="margin-top:10px">📲 Instalar agora</button>');
+  $('#btnInstalar').onclick = async () => { pedidoInstalar.prompt(); const r = await pedidoInstalar.userChoice; evento('instalar', { resultado: r.outcome }); pedidoInstalar = null; $('#btnInstalar').remove(); };
+});
+
+/* ---------- início ---------- */
+atualizarMusica(); rota();
+if (liberarPeloLink) setTimeout(comemorarLiberacao, 400);
+if (liberado()) garantirModelViewer().catch(() => {});
+})();
+</script>
+
+</body>
+</html>
